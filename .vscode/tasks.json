@@ -3,15 +3,14 @@
   "tasks": [
     {
       "type": "factorio",
-      "label": "Set minimal mods",
+      "label": "Set minimal mods (src)",
       "command": "adjustMods",
       // unfortunately tasks don't support environment variables... >:(
-      "modsPath": "c:/Files/Development/Factorio/Testbenches/1/mods",
+      "modsPath": "c:/Files/Development/Factorio/Factorio/mods",
       "adjustMods": {
+        "BlueprintTools": true,
         "EditorExtensions": true,
         "flib": true,
-        // replace with the mod name
-        "ModTemplate": true,
         "Sandbox": true
       },
       "disableExtraMods": true
