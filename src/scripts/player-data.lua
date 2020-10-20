@@ -4,7 +4,9 @@ local player_data = {}
 
 function player_data.init(player_index)
   global.players[player_index] = {
-    flags = {},
+    flags = {
+      buttons_shown = false
+    },
     guis = {},
     settings = {}
   }

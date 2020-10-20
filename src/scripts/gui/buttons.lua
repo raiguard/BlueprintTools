@@ -13,7 +13,8 @@ function buttons_gui.refresh(player, player_table)
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
     sprite = "bpt_flip_horizontally_white",
-    tooltip = {"bpt-gui.flip-horizontally-tooltip"}
+    tooltip = {"bpt-gui.flip-horizontally-tooltip"},
+    tags = {bpt_flip_horizontally = true}
   }
   flip_horizontally.visible = false
 
@@ -21,7 +22,8 @@ function buttons_gui.refresh(player, player_table)
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
     sprite = "bpt_flip_vertically_white",
-    tooltip = {"bpt-gui.flip-vertically-tooltip"}
+    tooltip = {"bpt-gui.flip-vertically-tooltip"},
+    tags = {bpt_flip_vertically = true}
   }
   flip_vertically.visible = false
 
@@ -29,7 +31,8 @@ function buttons_gui.refresh(player, player_table)
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
     sprite = "bpt_swap_wire_colors_white",
-    tooltip = {"bpt-gui.swap-wire-colors-tooltip"}
+    tooltip = {"bpt-gui.swap-wire-colors-tooltip"},
+    tags = {bpt_swap_wire_colors = true}
   }
   swap_wire_colors.visible = false
 
@@ -37,7 +40,8 @@ function buttons_gui.refresh(player, player_table)
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
     sprite = "bpt_set_tiles_white",
-    tooltip = {"bpt-gui.set-tiles-tooltip"}
+    tooltip = {"bpt-gui.set-tiles-tooltip"},
+    tags = {bpt_set_tiles = true}
   }
   set_tiles.visible = false
 
