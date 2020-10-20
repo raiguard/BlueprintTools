@@ -28,4 +28,18 @@ function buttons_gui.refresh(player, player_table)
   }
 end
 
+function buttons_gui.show(player_table)
+  for _, button in pairs(player_table.guis.buttons) do
+    button.visible = true
+  end
+  player_table.flags.buttons_shown = true
+end
+
+function buttons_gui.hide(player_table)
+  for _, button in pairs(player_table.guis.buttons) do
+    button.visible = false
+  end
+  player_table.flags.buttons_shown = false
+end
+
 return buttons_gui
