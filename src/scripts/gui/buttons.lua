@@ -9,22 +9,43 @@ function buttons_gui.refresh(player, player_table)
     button.destroy()
   end
 
-  local flip_horizontal = button_flow.add{
+  local flip_horizontally = button_flow.add{
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
-    sprite = "bpt_flip_vertical_white"
+    sprite = "bpt_flip_horizontally_white",
+    tooltip = {"bpt-gui.flip-horizontally-tooltip"}
   }
-  flip_horizontal.visible = false
-  local flip_vertical = button_flow.add{
+  flip_horizontally.visible = false
+
+  local flip_vertically = button_flow.add{
     type = "sprite-button",
     style = "bpt_mod_gui_button_blue",
-    sprite = "bpt_flip_horizontal_white"
+    sprite = "bpt_flip_vertically_white",
+    tooltip = {"bpt-gui.flip-vertically-tooltip"}
   }
-  flip_vertical.visible = false
+  flip_vertically.visible = false
+
+  local swap_wire_colors = button_flow.add{
+    type = "sprite-button",
+    style = "bpt_mod_gui_button_blue",
+    sprite = "bpt_swap_wire_colors_white",
+    tooltip = {"bpt-gui.swap-wire-colors-tooltip"}
+  }
+  swap_wire_colors.visible = false
+
+  local set_tiles = button_flow.add{
+    type = "sprite-button",
+    style = "bpt_mod_gui_button_blue",
+    sprite = "bpt_set_tiles_white",
+    tooltip = {"bpt-gui.set-tiles-tooltip"}
+  }
+  set_tiles.visible = false
 
   player_table.guis.buttons = {
-    flip_vertical = flip_vertical,
-    flip_horizontal = flip_horizontal
+    flip_horizontally = flip_horizontally,
+    flip_vertically = flip_vertically,
+    swap_wire_colors = swap_wire_colors,
+    set_tiles = set_tiles
   }
 end
 

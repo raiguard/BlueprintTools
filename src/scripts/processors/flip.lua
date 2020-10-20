@@ -1,5 +1,5 @@
-local proc_flip = {}
+local function flip_blueprint()
 
+end
 
-
-return proc_flip
+return flip_blueprint
