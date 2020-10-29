@@ -8,6 +8,7 @@ local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
 local flip_blueprint = require("scripts.processors.flip")
+local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
 -- -----------------------------------------------------------------------------
 -- EVENT HANDLERS
@@ -43,6 +44,10 @@ event.register("bpt-flip-vertically", function(e)
   flip_blueprint(game.get_player(e.player_index), "vertical")
 end)
 
+event.register("bpt-swap-wire-colors", function(e)
+  swap_wire_colors(game.get_player(e.player_index))
+end)
+
 -- GUI
 
 event.on_gui_click(function(e)
@@ -52,6 +57,8 @@ event.on_gui_click(function(e)
     flip_blueprint(player, "horizontal")
   elseif tags.bpt_flip_vertically then
     flip_blueprint(player, "vertical")
+  elseif tags.bpt_swap_wire_colors then
+    swap_wire_colors(player)
   end
 end)
 
@@ -62,16 +69,8 @@ event.on_player_created(function(e)
   player_data.refresh(game.get_player(e.player_index), global.players[e.player_index])
 end)
 
-event.on_player_joined_game(function(e)
-
-end)
-
-event.on_player_left_game(function(e)
-
-end)
-
 event.on_player_removed(function(e)
-
+  global.players[e.player_index] = nil
 end)
 
 event.on_player_cursor_stack_changed(function(e)
