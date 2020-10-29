@@ -53,6 +53,20 @@ event.register("bpt-quick-grid", function(e)
   quick_grid(game.get_player(e.player_index))
 end)
 
+event.register("bpt-configure", function(e)
+  local player = game.get_player(e.player_index)
+  local cursor_stack = player.cursor_stack
+  if cursor_stack and cursor_stack.valid_for_read then
+    local blueprint = util.get_blueprint(cursor_stack)
+    if
+      (blueprint and blueprint.is_blueprint_setup())
+      or (cursor_stack.is_upgrade_item or cursor_stack.is_deconstruction_item)
+    then
+      player.opened = cursor_stack
+    end
+  end
+end)
+
 -- GUI
 
 event.on_gui_click(function(e)
@@ -66,6 +80,8 @@ event.on_gui_click(function(e)
     swap_wire_colors(player)
   elseif tags.bpt_quick_grid then
     quick_grid(player)
+  elseif tags.bpt_quick_config then
+    player.opened = player.cursor_stack
   end
 end)
 
@@ -86,16 +102,28 @@ event.on_player_cursor_stack_changed(function(e)
   local cursor_stack = player.cursor_stack
 
   local blueprint = util.get_blueprint(cursor_stack)
-  local buttons_shown = player_table.flags.buttons_shown
+  local blueprint_buttons_shown = player_table.flags.blueprint_buttons_shown
 
   if blueprint then
     local is_setup = blueprint.is_blueprint_setup()
-    if is_setup and not buttons_shown then
-      buttons_gui.show(player_table)
-    elseif not is_setup and buttons_shown then
-      buttons_gui.hide(player_table)
+    if is_setup and not blueprint_buttons_shown then
+      buttons_gui.show(player_table, "blueprint")
+    elseif not is_setup and blueprint_buttons_shown then
+      buttons_gui.hide(player_table, "blueprint")
     end
-  elseif buttons_shown then
-    buttons_gui.hide(player_table)
+  elseif blueprint_buttons_shown then
+    buttons_gui.hide(player_table, "blueprint")
+  end
+
+  if cursor_stack.is_upgrade_item then
+    buttons_gui.show(player_table, "upgrade_planner")
+  elseif player_table.flags.upgrade_planner_buttons_shown then
+    buttons_gui.hide(player_table, "upgrade_planner")
+  end
+
+  if cursor_stack.is_deconstruction_item then
+    buttons_gui.show(player_table, "deconstruction_planner")
+  elseif player_table.flags.deconstruction_planner_buttons_shown then
+    buttons_gui.hide(player_table, "deconstruction_planner")
   end
 end)

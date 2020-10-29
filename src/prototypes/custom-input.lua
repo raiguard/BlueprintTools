@@ -23,5 +23,10 @@ data:extend{
     type = "custom-input",
     name = "bpt-quick-grid",
     key_sequence = "SHIFT + G"
+  },
+  {
+    type = "custom-input",
+    name = "bpt-configure",
+    key_sequence = "SHIFT + B"
   }
 }

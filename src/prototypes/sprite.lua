@@ -45,5 +45,14 @@ data:extend{
     size = 32,
     mipmap_count = 2,
     flags = {"icon"}
+  },
+  {
+    type = "sprite",
+    name = "bpt_configure_white",
+    filename = button_icons_file,
+    y = 160,
+    size = 32,
+    mipmap_count = 2,
+    flags = {"icon"}
   }
 }
