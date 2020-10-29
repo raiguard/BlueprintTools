@@ -45,11 +45,21 @@ function buttons_gui.refresh(player, player_table)
   }
   set_tiles.visible = false
 
+  local quick_grid = button_flow.add{
+    type = "sprite-button",
+    style = "bpt_mod_gui_button_blue",
+    sprite = "bpt_quick_grid_white",
+    tooltip = {"bpt-gui.quick-grid-tooltip"},
+    tags = {bpt_quick_grid = true}
+  }
+  quick_grid.visible = false
+
   player_table.guis.buttons = {
     flip_horizontally = flip_horizontally,
     flip_vertically = flip_vertically,
     swap_wire_colors = swap_wire_colors,
-    set_tiles = set_tiles
+    set_tiles = set_tiles,
+    quick_grid = quick_grid
   }
 end
 

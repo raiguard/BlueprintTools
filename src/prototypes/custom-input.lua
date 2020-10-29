@@ -18,5 +18,10 @@ data:extend{
     type = "custom-input",
     name = "bpt-set-tiles",
     key_sequence = "SHIFT + T"
+  },
+  {
+    type = "custom-input",
+    name = "bpt-quick-grid",
+    key_sequence = "SHIFT + G"
   }
 }

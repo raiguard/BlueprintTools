@@ -8,6 +8,7 @@ local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
 local flip_blueprint = require("scripts.processors.flip")
+local quick_grid = require("scripts.processors.quick-grid")
 local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
 -- -----------------------------------------------------------------------------
@@ -48,6 +49,10 @@ event.register("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
 end)
 
+event.register("bpt-quick-grid", function(e)
+  quick_grid(game.get_player(e.player_index))
+end)
+
 -- GUI
 
 event.on_gui_click(function(e)
@@ -59,6 +64,8 @@ event.on_gui_click(function(e)
     flip_blueprint(player, "vertical")
   elseif tags.bpt_swap_wire_colors then
     swap_wire_colors(player)
+  elseif tags.bpt_quick_grid then
+    quick_grid(player)
   end
 end)
 
