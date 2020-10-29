@@ -80,7 +80,7 @@ event.on_gui_click(function(e)
     swap_wire_colors(player)
   elseif tags.bpt_quick_grid then
     quick_grid(player)
-  elseif tags.bpt_quick_config then
+  elseif tags.bpt_configure then
     player.opened = player.cursor_stack
   end
 end)
