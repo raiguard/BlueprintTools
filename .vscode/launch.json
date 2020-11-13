@@ -4,7 +4,7 @@
     {
       "type": "factoriomod",
       "request": "launch",
-      "name": "Debug (src)",
+      "name": "Debug",
       "factorioPath": "${env:factorioSourceRelease}",
       "hookMode": "debug",
       "hookControl": ["BlueprintTools", "Sandbox"],
@@ -13,7 +13,7 @@
     {
       "type": "factoriomod",
       "request": "launch",
-      "name": "Debug (data) (src)",
+      "name": "Debug (data)",
       "factorioPath": "${env:factorioSourceRelease}",
       "hookMode": "debug",
       "hookControl": ["BlueprintTools", "Sandbox"],
@@ -24,7 +24,7 @@
     {
       "type": "factoriomod",
       "request": "launch",
-      "name": "Profile (src)",
+      "name": "Profile",
       "factorioPath": "${env:factorioSourceRelease}",
       "hookMode": "profile",
       "hookControl": ["BlueprintTools", "Sandbox"]

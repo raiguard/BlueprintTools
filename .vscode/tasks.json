@@ -3,7 +3,7 @@
   "tasks": [
     {
       "type": "factorio",
-      "label": "Set minimal mods (src)",
+      "label": "Set minimal mods",
       "command": "adjustMods",
       // unfortunately tasks don't support environment variables... >:(
       "modsPath": "c:/Files/Development/Factorio/Factorio/mods",
