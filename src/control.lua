@@ -7,7 +7,6 @@ local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
-local flip_blueprint = require("scripts.processors.flip")
 local quick_grid = require("scripts.processors.quick-grid")
 local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
@@ -37,13 +36,13 @@ end)
 
 -- CUSTOM INPUTS
 
-event.register("bpt-flip-horizontally", function(e)
-  flip_blueprint(game.get_player(e.player_index), "horizontal")
-end)
+-- event.register("bpt-flip-horizontally", function(e)
+--   flip_blueprint(game.get_player(e.player_index), "horizontal")
+-- end)
 
-event.register("bpt-flip-vertically", function(e)
-  flip_blueprint(game.get_player(e.player_index), "vertical")
-end)
+-- event.register("bpt-flip-vertically", function(e)
+--   flip_blueprint(game.get_player(e.player_index), "vertical")
+-- end)
 
 event.register("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
@@ -72,11 +71,11 @@ end)
 event.on_gui_click(function(e)
   local player = game.get_player(e.player_index)
   local tags = e.element.tags
-  if tags.bpt_flip_horizontally then
-    flip_blueprint(player, "horizontal")
-  elseif tags.bpt_flip_vertically then
-    flip_blueprint(player, "vertical")
-  elseif tags.bpt_swap_wire_colors then
+  -- if tags.bpt_flip_horizontally then
+  --   flip_blueprint(player, "horizontal")
+  -- elseif tags.bpt_flip_vertically then
+  --   flip_blueprint(player, "vertical")
+  if tags.bpt_swap_wire_colors then
     swap_wire_colors(player)
   elseif tags.bpt_quick_grid then
     quick_grid(player)

@@ -22,8 +22,8 @@ function buttons_gui.refresh(player, player_table)
     button.destroy()
   end
   player_table.guis.blueprint_buttons = {
-    flip_horizontally = mod_gui_button(button_flow, "blue", "flip_horizontally"),
-    flip_vertically = mod_gui_button(button_flow, "blue", "flip_vertically"),
+    -- flip_horizontally = mod_gui_button(button_flow, "blue", "flip_horizontally"),
+    -- flip_vertically = mod_gui_button(button_flow, "blue", "flip_vertically"),
     swap_wire_colors = mod_gui_button(button_flow, "blue", "swap_wire_colors"),
     set_tiles = mod_gui_button(button_flow, "blue", "set_tiles"),
     quick_grid = mod_gui_button(button_flow, "blue", "quick_grid"),
