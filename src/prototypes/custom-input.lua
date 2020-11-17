@@ -1,14 +1,14 @@
 data:extend{
-  {
-    type = "custom-input",
-    name = "bpt-flip-horizontally",
-    key_sequence = "SHIFT + X"
-  },
-  {
-    type = "custom-input",
-    name = "bpt-flip-vertically",
-    key_sequence = "SHIFT + V"
-  },
+  -- {
+  --   type = "custom-input",
+  --   name = "bpt-flip-horizontally",
+  --   key_sequence = "SHIFT + X"
+  -- },
+  -- {
+  --   type = "custom-input",
+  --   name = "bpt-flip-vertically",
+  --   key_sequence = "SHIFT + V"
+  -- },
   {
     type = "custom-input",
     name = "bpt-swap-wire-colors",

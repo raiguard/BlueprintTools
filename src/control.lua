@@ -1,4 +1,5 @@
 local event = require("__flib__.event")
+local gui = require("__flib__.gui-beta")
 local migration = require("__flib__.migration")
 
 local buttons_gui = require("scripts.gui.buttons")
@@ -8,6 +9,7 @@ local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
 local quick_grid = require("scripts.processors.quick-grid")
+local set_tiles_gui = require("scripts.gui.set-tiles")
 local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
 -- -----------------------------------------------------------------------------
@@ -48,6 +50,12 @@ event.register("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
 end)
 
+event.register("bpt-set-tiles", function(e)
+  local player = game.get_player(e.player_index)
+  local player_table = global.players[e.player_index]
+  set_tiles_gui.build(player, player_table)
+end)
+
 event.register("bpt-quick-grid", function(e)
   quick_grid(game.get_player(e.player_index))
 end)
@@ -68,19 +76,29 @@ end)
 
 -- GUI
 
-event.on_gui_click(function(e)
+gui.hook_events(function(e)
   local player = game.get_player(e.player_index)
-  local tags = e.element.tags
-  -- if tags.bpt_flip_horizontally then
-  --   flip_blueprint(player, "horizontal")
-  -- elseif tags.bpt_flip_vertically then
-  --   flip_blueprint(player, "vertical")
-  if tags.bpt_swap_wire_colors then
-    swap_wire_colors(player)
-  elseif tags.bpt_quick_grid then
-    quick_grid(player)
-  elseif tags.bpt_configure then
-    player.opened = player.cursor_stack
+  local player_table = global.players[e.player_index]
+  local action = gui.get_action(e)
+
+  if action then
+    if action.gui == "buttons" then
+      -- if tags.bpt_flip_horizontally then
+      --   flip_blueprint(player, "horizontal")
+      -- elseif tags.bpt_flip_vertically then
+      --   flip_blueprint(player, "vertical")
+      if action.action == "swap_wire_colors" then
+        swap_wire_colors(player)
+      elseif action.action == "set_tiles" then
+        set_tiles_gui.build(player, player_table)
+      elseif action.action == "quick_grid" then
+        quick_grid(player)
+      elseif action.action == "configure" then
+        player.opened = player.cursor_stack
+      end
+    elseif action.gui == "set_tiles" then
+      set_tiles_gui.handle_action(e, action)
+    end
   end
 end)
 
@@ -124,5 +142,10 @@ event.on_player_cursor_stack_changed(function(e)
     buttons_gui.show(player_table, "deconstruction_planner")
   elseif player_table.flags.deconstruction_planner_buttons_shown then
     buttons_gui.hide(player_table, "deconstruction_planner")
+  end
+
+  -- if the set tiles GUI is open and the cursor stack changes in any way, close it
+  if player_table.guis.set_tiles then
+    set_tiles_gui.destroy(player_table)
   end
 end)
