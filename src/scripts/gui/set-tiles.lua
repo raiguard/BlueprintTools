@@ -1,5 +1,7 @@
 local gui = require("__flib__.gui-beta")
 
+local set_tiles = require("scripts.processors.set-tiles")
+
 local set_tiles_gui = {}
 
 function set_tiles_gui.build(player, player_table)
@@ -24,23 +26,27 @@ function set_tiles_gui.build(player, player_table)
             elem_filters = {{filter = "blueprintable"}},
             actions = {
               on_elem_changed = {gui = "set_tiles", action = "update_tile"}
-            }
-          },
-          {type = "flow", style_mods = {left_margin = 8}, direction = "vertical", children = {
-            {
-              type = "label",
-              style = "caption_label",
-              style_mods = {top_margin = -3, bottom_margin = -1},
-              ref = {"tile_button"}
             },
+            ref = {"tile_button"}
+          },
+          {type = "line", style_mods = {left_margin = 8, vertically_stretchable = true}, direction = "vertical"},
+          {type = "flow", style_mods = {left_margin = 8}, direction = "vertical", children = {
             {
               type = "checkbox",
               caption = {"bpt-gui.fill-gaps"},
+              tooltip = {"bpt-gui.fill-gaps-description"},
               state = true,
-              actions = {
-                on_checked_state_changed = {gui = "set_tiles", action = "update_fill_gaps"}
+              ref = {"fill_gaps_checkbox"}
+            },
+            {type = "flow", style_mods = {vertical_align = "center"}, ref = {"margin_flow"}, children = {
+              {type = "label", style_mods = {right_margin = 8}, caption = {"bpt-gui.margin"}, tooltip = {"bpt-gui.margin-description"}},
+              {
+                type = "textfield",
+                style_mods = {width = 50, horizontal_align = "center"},
+                text = "0",
+                ref = {"margin_textfield"}
               }
-            }
+            }}
           }}
         }},
         {type = "flow", style = "dialog_buttons_horizontal_flow", children = {
@@ -52,11 +58,18 @@ function set_tiles_gui.build(player, player_table)
               on_click = {gui = "set_tiles", action = "close"}
             }
           },
-          {type = "empty-widget", style = "flib_dialog_footer_drag_handle", ref = {"footer_drag_handle"}},
+          {
+            type = "empty-widget",
+            style = "flib_dialog_footer_drag_handle",
+            style_mods = {minimal_width = 24},
+            ref = {"footer_drag_handle"}
+          },
           {
             type = "button",
             style = "confirm_button",
             caption = {"gui.confirm"},
+            elem_mods = {enabled = false},
+            ref = {"confirm_button"},
             actions = {
               on_click = {gui = "set_tiles", action = "confirm"}
             }
@@ -67,6 +80,7 @@ function set_tiles_gui.build(player, player_table)
   })
 
   refs.titlebar_flow.drag_target = refs.window
+  refs.footer_drag_handle.drag_target = refs.window
   refs.window.force_auto_center()
 
   player.opened = refs.window
@@ -85,14 +99,24 @@ end
 function set_tiles_gui.handle_action(e, action)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
+  local gui_data = player_table.guis.set_tiles
+  local refs = gui_data.refs
+
   if action.action == "close" then
     set_tiles_gui.destroy(player_table)
   elseif action.action == "confirm" then
-
+    local tile_name = refs.tile_button.elem_value
+    if tile_name then
+      set_tiles(player, tile_name, refs.fill_gaps_checkbox.state)
+      set_tiles_gui.destroy(player_table)
+    end
   elseif action.action == "update_tile" then
-
-  elseif action.action == "update_fill_gaps" then
-
+    local tile_name = refs.tile_button.elem_value
+    if tile_name then
+      refs.confirm_button.enabled = true
+    else
+      refs.confirm_button.enabled = false
+    end
   end
 end
 

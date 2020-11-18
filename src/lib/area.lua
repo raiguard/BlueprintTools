@@ -57,12 +57,58 @@ function area_lib.from_position(position)
   }
 end
 
+-- iterate positions in the area from top-left to bottom-right
+function area_lib.iterate(self, step)
+  step = step or 1
+
+  local x = self.left_top.x
+  local y = self.left_top.y
+  local max_x = self.right_bottom.x
+  local max_y = self.right_bottom.y
+  local first = true
+
+  local function iterator()
+    if first then
+      first = false
+      return {x = x, y = y}
+    end
+
+    local new_x = x + step
+    if x < max_x and new_x < max_x then
+      x = new_x
+    else
+      local new_y = y + step
+      if y < max_y and new_y < max_y then
+        x = self.left_top.x
+        y = new_y
+      else
+        return nil
+      end
+    end
+
+    return {x = x, y = y}
+  end
+
+  return iterator
+end
+
+function area_lib.expand(self, amount)
+  self.left_top.x = self.left_top.x - amount
+  self.left_top.y = self.left_top.y - amount
+
+  self.right_bottom.x = self.right_bottom.x + amount
+  self.right_bottom.y = self.right_bottom.y + amount
+
+  return self
+end
+
 local area_class_mt = {
   __index = {}
 }
 local excluded_funcs = {
   width = true,
-  height = true
+  height = true,
+  iterate = true
 }
 
 -- don't call the area_lib functions directly - use a helper function to return a new Area class if using one
