@@ -79,7 +79,7 @@ end)
 gui.hook_events(function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
-  local action = gui.get_action(e)
+  local action = gui.read_action(e)
 
   if action then
     if action.gui == "buttons" then

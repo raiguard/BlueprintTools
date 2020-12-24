@@ -8,7 +8,7 @@ local function quick_grid(player)
 
   local entities = blueprint.get_blueprint_entities()
 
-  local GridArea = area.new(area.from_position(entities[1].position))
+  local GridArea = area.load(area.from_position(entities[1].position))
   local entity_prototypes = game.entity_prototypes
 
   -- iterate entities to calculate needed grid size

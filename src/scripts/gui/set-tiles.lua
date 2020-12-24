@@ -39,7 +39,12 @@ function set_tiles_gui.build(player, player_table)
               ref = {"fill_gaps_checkbox"}
             },
             {type = "flow", style_mods = {vertical_align = "center"}, ref = {"margin_flow"}, children = {
-              {type = "label", style_mods = {right_margin = 8}, caption = {"bpt-gui.margin"}, tooltip = {"bpt-gui.margin-description"}},
+              {
+                type = "label",
+                style_mods = {right_margin = 8},
+                caption = {"bpt-gui.margin"},
+                tooltip = {"bpt-gui.margin-description"}
+              },
               {
                 type = "textfield",
                 style_mods = {width = 50, horizontal_align = "center"},
@@ -107,7 +112,7 @@ function set_tiles_gui.handle_action(e, action)
   elseif action.action == "confirm" then
     local tile_name = refs.tile_button.elem_value
     if tile_name then
-      set_tiles(player, tile_name, refs.fill_gaps_checkbox.state)
+      set_tiles(player, tile_name, refs.fill_gaps_checkbox.state, tonumber(refs.margin_textfield.text))
       set_tiles_gui.destroy(player_table)
     end
   elseif action.action == "update_tile" then

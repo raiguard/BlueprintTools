@@ -43,11 +43,11 @@ function area_lib.ceil(self)
 end
 
 function area_lib.width(self)
-  return self.right_bottom.x - self.left_top.x
+  return math.abs(self.right_bottom.x - self.left_top.x)
 end
 
 function area_lib.height(self)
-  return self.right_bottom.y - self.left_top.y
+  return math.abs(self.right_bottom.y - self.left_top.y)
 end
 
 function area_lib.from_position(position)
@@ -55,6 +55,28 @@ function area_lib.from_position(position)
     left_top = {x = position.x, y = position.y},
     right_bottom = {x = position.x, y = position.y}
   }
+end
+
+function area_lib.move(self, delta)
+  self.left_top.x = self.left_top.x + delta.x
+  self.left_top.y = self.left_top.y + delta.y
+  self.right_bottom.x = self.right_bottom.x + delta.x
+  self.right_bottom.y = self.right_bottom.y + delta.y
+
+  return self
+end
+
+function area_lib.corners(self)
+  self.left_bottom = {
+    x = self.left_top.x,
+    y = self.right_bottom.y
+  }
+  self.right_top = {
+    x = self.right_bottom.x,
+    y = self.left_top.y
+  }
+
+  return self
 end
 
 -- iterate positions in the area from top-left to bottom-right
@@ -102,33 +124,46 @@ function area_lib.expand(self, amount)
   return self
 end
 
-local area_class_mt = {
-  __index = {}
-}
-local excluded_funcs = {
-  width = true,
-  height = true,
-  iterate = true
-}
-
--- don't call the area_lib functions directly - use a helper function to return a new Area class if using one
-for name, func in pairs(area_lib) do
-  if not excluded_funcs[name] then
-    area_class_mt.__index[name] = function(self, ...)
-      return setmetatable(func(self, ...), area_class_mt)
-    end
-  else
-    area_class_mt.__index[name] = func
-  end
+function area_lib.center(self)
+  return {
+    x = self.left_top.x + (area_lib.width(self) / 2),
+    y = self.left_top.y + (area_lib.height(self) / 2)
+  }
 end
 
-local default_area = {
-  left_top = {x = 0, y = 0},
-  right_bottom = {x = 0, y = 0}
-}
+function area_lib.contains(self, position)
+  return (
+    self.left_top.x <= position.x
+    and self.right_bottom.x >= position.x
+    and self.left_top.y <= position.y
+    and self.right_bottom.y >= position.y
+  )
+end
 
-function area_lib.new(area)
-  return setmetatable(area or default_area, area_class_mt)
+function area_lib.distance_to_nearest_edge(self, position)
+  local x_distance = math.min(math.abs(self.left_top.x - position.x), math.abs(self.right_bottom.x - position.x))
+  local y_distance = math.min(math.abs(self.left_top.y - position.y), math.abs(self.right_bottom.y - position.y))
+
+  return math.min(x_distance, y_distance)
+end
+
+function area_lib.strip(self)
+  return {
+    left_top = {
+      x = self.left_top.x,
+      y = self.left_top.y
+    },
+    right_bottom = {
+      x = self.right_bottom.x,
+      y = self.right_bottom.y
+    }
+  }
+end
+
+function area_lib.load(area)
+  return setmetatable(area, {__index = area_lib})
 end
 
 return area_lib
+
+

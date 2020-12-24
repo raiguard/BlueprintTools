@@ -3,7 +3,6 @@ local area = require("lib.area")
 local util = require("scripts.util")
 
 return function(player, tile_name, fill_gaps, margin)
-  margin = margin or 3
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then return end
 
@@ -14,7 +13,7 @@ return function(player, tile_name, fill_gaps, margin)
   local tile_index = 0
 
   if fill_gaps then
-    local TileArea = area.new(area.from_position(entities[1].position))
+    local TileArea = area.load(area.from_position(entities[1].position))
 
     -- iterate entities to calculate needed grid size
     for _, entity in pairs(entities) do
@@ -41,13 +40,13 @@ return function(player, tile_name, fill_gaps, margin)
     for _, entity in pairs(entities) do
       local prototype = entity_prototypes[entity.name]
       if prototype then
-        local EntityArea = area.new(area.center_on(prototype.collision_box, entity.position)):ceil():expand(margin)
+        local EntityArea = area.load(area.center_on(prototype.collision_box, entity.position)):ceil():expand(margin)
 
         for position in EntityArea:iterate() do
           local add = false
 
           if mapping[position.x] then
-            if not mapping[position.y] then
+            if not mapping[position.x][position.y] then
               add = true
               mapping[position.x][position.y] = true
             end

@@ -6,7 +6,7 @@
       "label": "Set minimal mods",
       "command": "adjustMods",
       // unfortunately tasks don't support environment variables... >:(
-      "modsPath": "c:/Files/Development/Factorio/Factorio/mods",
+      "modsPath": "c:/Files/Development/Factorio/Testbenches/1/mods",
       "adjustMods": {
         "BlueprintTools": true,
         "EditorExtensions": true,
