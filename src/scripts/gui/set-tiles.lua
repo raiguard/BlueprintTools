@@ -49,6 +49,7 @@ function set_tiles_gui.build(player, player_table)
                 type = "textfield",
                 style_mods = {width = 50, horizontal_align = "center"},
                 text = "0",
+                numeric = true,
                 ref = {"margin_textfield"}
               }
             }}
