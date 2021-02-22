@@ -1,14 +1,4 @@
 data:extend{
-  -- {
-  --   type = "custom-input",
-  --   name = "bpt-flip-horizontally",
-  --   key_sequence = "SHIFT + X"
-  -- },
-  -- {
-  --   type = "custom-input",
-  --   name = "bpt-flip-vertically",
-  --   key_sequence = "SHIFT + V"
-  -- },
   {
     type = "custom-input",
     name = "bpt-swap-wire-colors",
@@ -28,5 +18,11 @@ data:extend{
     type = "custom-input",
     name = "bpt-configure",
     key_sequence = "SHIFT + B"
+  },
+  {
+    type = "custom-input",
+    name = "bpt-linked-confirm-gui",
+    key_sequence = "",
+    linked_game_control = "confirm-gui"
   }
 }

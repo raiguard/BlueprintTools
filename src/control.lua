@@ -38,14 +38,6 @@ end)
 
 -- CUSTOM INPUTS
 
--- event.register("bpt-flip-horizontally", function(e)
---   flip_blueprint(game.get_player(e.player_index), "horizontal")
--- end)
-
--- event.register("bpt-flip-vertically", function(e)
---   flip_blueprint(game.get_player(e.player_index), "vertical")
--- end)
-
 event.register("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
 end)
@@ -53,7 +45,13 @@ end)
 event.register("bpt-set-tiles", function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
-  set_tiles_gui.build(player, player_table)
+  local cursor_stack = player.cursor_stack
+  if cursor_stack and cursor_stack.valid_for_read then
+    local blueprint = util.get_blueprint(cursor_stack)
+    if blueprint and blueprint.is_blueprint_setup() then
+      set_tiles_gui.build(player, player_table)
+    end
+  end
 end)
 
 event.register("bpt-quick-grid", function(e)
@@ -74,6 +72,16 @@ event.register("bpt-configure", function(e)
   end
 end)
 
+event.register("bpt-linked-confirm-gui", function(e)
+  local player = game.get_player(e.player_index)
+  local player_table = global.players[e.player_index]
+  local gui_data = player_table.guis.set_tiles
+  if gui_data and gui_data.refs.confirm_button.enabled then
+    set_tiles_gui.handle_action(e, {action = "confirm"})
+    player.play_sound{path = "utility/confirm"}
+  end
+end)
+
 -- GUI
 
 gui.hook_events(function(e)
@@ -83,10 +91,6 @@ gui.hook_events(function(e)
 
   if action then
     if action.gui == "buttons" then
-      -- if tags.bpt_flip_horizontally then
-      --   flip_blueprint(player, "horizontal")
-      -- elseif tags.bpt_flip_vertically then
-      --   flip_blueprint(player, "vertical")
       if action.action == "swap_wire_colors" then
         swap_wire_colors(player)
       elseif action.action == "set_tiles" then

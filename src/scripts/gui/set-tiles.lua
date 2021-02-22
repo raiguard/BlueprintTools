@@ -101,21 +101,21 @@ function set_tiles_gui.destroy(player_table)
   player_table.guis.set_tiles = nil
 end
 
-function set_tiles_gui.handle_action(e, action)
+function set_tiles_gui.handle_action(e, msg)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
   local refs = gui_data.refs
 
-  if action.action == "close" then
+  if msg.action == "close" then
     set_tiles_gui.destroy(player_table)
-  elseif action.action == "confirm" then
+  elseif msg.action == "confirm" then
     local tile_name = refs.tile_button.elem_value
     if tile_name then
       set_tiles(player, tile_name, refs.fill_gaps_checkbox.state, tonumber(refs.margin_textfield.text))
       set_tiles_gui.destroy(player_table)
     end
-  elseif action.action == "update_tile" then
+  elseif msg.action == "update_tile" then
     local tile_name = refs.tile_button.elem_value
     if tile_name then
       refs.confirm_button.enabled = true
