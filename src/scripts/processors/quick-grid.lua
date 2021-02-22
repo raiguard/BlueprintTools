@@ -1,4 +1,4 @@
-local area = require("lib.area")
+local area = require("__flib__.area")
 
 local util = require("scripts.util")
 
@@ -15,7 +15,7 @@ local function quick_grid(player)
   for _, entity in pairs(entities) do
     local prototype = entity_prototypes[entity.name]
     if prototype then
-      GridArea:expand_to_contain(area.center_on(prototype.collision_box, entity.position))
+      GridArea:expand_to_contain_area(area.center_on(prototype.collision_box, entity.position))
     end
   end
 

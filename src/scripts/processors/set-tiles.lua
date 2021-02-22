@@ -1,7 +1,8 @@
-local area = require("lib.area")
+local area = require("__flib__.area")
 
 local util = require("scripts.util")
 
+-- TODO: fix edge case with curved rails
 return function(player, tile_name, fill_gaps, margin)
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then return end
@@ -19,7 +20,7 @@ return function(player, tile_name, fill_gaps, margin)
     for _, entity in pairs(entities) do
       local prototype = entity_prototypes[entity.name]
       if prototype then
-        TileArea:expand_to_contain(area.center_on(prototype.collision_box, entity.position))
+        TileArea:expand_to_contain_area(area.center_on(prototype.collision_box, entity.position))
       end
     end
 
