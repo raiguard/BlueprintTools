@@ -6,8 +6,8 @@ local function quick_grid(player)
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then return end
 
-  local entities = blueprint.get_blueprint_entities()
-  local tiles = blueprint.get_blueprint_tiles()
+  local entities = blueprint.get_blueprint_entities() or {}
+  local tiles = blueprint.get_blueprint_tiles() or {}
 
   local GridArea = area.load(area.from_position(entities[1].position))
   local entity_prototypes = game.entity_prototypes

@@ -9,20 +9,18 @@ function set_tiles_gui.build(player, player_table)
     {
       type = "frame",
       direction = "vertical",
+      caption = {"controls.bpt-set-tiles"},
       ref = {"window"},
       actions = {
         on_closed = {gui = "set_tiles", action = "close"},
       },
       children = {
-        {type = "flow", ref = {"titlebar_flow"}, children = {
-          {type = "label", style = "frame_title", caption = {"controls.bpt-set-tiles"}, ignored_by_interaction = true},
-          {type = "empty-widget", style = "flib_dialog_titlebar_drag_handle", ignored_by_interaction = true}
-        }},
         {type = "frame", style = "inside_shallow_frame_with_padding", children = {
           {
             type = "choose-elem-button",
             style = "slot_button_in_shallow_frame",
             elem_type = "tile",
+            tile = "landfill",
             elem_filters = {{filter = "blueprintable"}},
             actions = {
               on_elem_changed = {gui = "set_tiles", action = "update_tile"}
@@ -74,7 +72,6 @@ function set_tiles_gui.build(player, player_table)
             type = "button",
             style = "confirm_button",
             caption = {"gui.confirm"},
-            elem_mods = {enabled = false},
             ref = {"confirm_button"},
             actions = {
               on_click = {gui = "set_tiles", action = "confirm"}
@@ -85,7 +82,6 @@ function set_tiles_gui.build(player, player_table)
     }
   })
 
-  refs.titlebar_flow.drag_target = refs.window
   refs.footer_drag_handle.drag_target = refs.window
   refs.window.force_auto_center()
 

@@ -2,7 +2,6 @@ local area = require("__flib__.area")
 
 local util = require("scripts.util")
 
--- TODO: fix edge case with curved rails
 return function(player, tile_name, fill_gaps, margin)
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then return end
@@ -20,7 +19,7 @@ return function(player, tile_name, fill_gaps, margin)
     for _, entity in pairs(entities) do
       local prototype = entity_prototypes[entity.name]
       if prototype then
-        TileArea:expand_to_contain_area(area.center_on(prototype.collision_box, entity.position))
+        TileArea:expand_to_contain_area(area.move(prototype.collision_box, entity.position))
       end
     end
 
@@ -37,31 +36,42 @@ return function(player, tile_name, fill_gaps, margin)
     end
   else
     local mapping = {}
+    local function add_tile(position)
+      local add = false
+
+      if mapping[position.x] then
+        if not mapping[position.x][position.y] then
+          add = true
+          mapping[position.x][position.y] = true
+        end
+      else
+        add = true
+        mapping[position.x] = {[position.y] = true}
+      end
+
+      if add then
+        tile_index = tile_index + 1
+        tiles[tile_index] = {
+          position = position,
+          name = tile_name
+        }
+      end
+    end
 
     for _, entity in pairs(entities) do
-      local prototype = entity_prototypes[entity.name]
-      if prototype then
-        local EntityArea = area.load(area.center_on(prototype.collision_box, entity.position)):ceil():expand(margin)
+      local rail_tiles = util.get_rail_tiles(entity)
+      if rail_tiles then
+        local entity_pos = entity.position
+        for _, position in pairs(rail_tiles) do
+          add_tile({x = position.x + entity_pos.x, y = position.y + entity_pos.y})
+        end
+      else
+        local prototype = entity_prototypes[entity.name]
+        if prototype then
+          local EntityArea = area.load(prototype.collision_box):move(entity.position):ceil():expand(margin)
 
-        for position in EntityArea:iterate() do
-          local add = false
-
-          if mapping[position.x] then
-            if not mapping[position.x][position.y] then
-              add = true
-              mapping[position.x][position.y] = true
-            end
-          else
-            add = true
-            mapping[position.x] = {[position.y] = true}
-          end
-
-          if add then
-            tile_index = tile_index + 1
-            tiles[tile_index] = {
-              position = position,
-              name = tile_name
-            }
+          for position in EntityArea:iterate() do
+            add_tile(position)
           end
         end
       end
