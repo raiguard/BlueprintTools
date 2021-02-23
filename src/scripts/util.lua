@@ -232,4 +232,9 @@ function util.get_rail_tiles(entity)
   return category[entity.direction or 0]
 end
 
+util.curved_rail_grid_sizes = {
+  {left_top = {x = -2, y = -4}, right_bottom = {x = 2, y = 4}},
+  {left_top = {x = -4, y = -2}, right_bottom = {x = 4, y = 2}}
+}
+
 return util

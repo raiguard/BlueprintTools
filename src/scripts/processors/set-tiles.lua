@@ -1,4 +1,5 @@
 local area = require("__flib__.area")
+local table = require("__flib__.table")
 
 local util = require("scripts.util")
 
@@ -19,7 +20,12 @@ return function(player, tile_name, fill_gaps, margin)
     for _, entity in pairs(entities) do
       local prototype = entity_prototypes[entity.name]
       if prototype then
-        TileArea:expand_to_contain_area(area.move(prototype.collision_box, entity.position))
+        local box = (
+          prototype.type == "curved-rail"
+          and table.deep_copy(util.curved_rail_grid_sizes[math.floor((entity.direction or 0) / 2) % 2 + 1])
+          or prototype.collision_box
+        )
+        TileArea:expand_to_contain_area(area.move(box, entity.position))
       end
     end
 
@@ -62,8 +68,10 @@ return function(player, tile_name, fill_gaps, margin)
       local rail_tiles = util.get_rail_tiles(entity)
       if rail_tiles then
         local entity_pos = entity.position
-        for _, position in pairs(rail_tiles) do
-          add_tile({x = position.x + entity_pos.x, y = position.y + entity_pos.y})
+        for _, src_position in pairs(rail_tiles) do
+          for position in area.load(area.from_position(src_position, true)):expand(margin):iterate() do
+            add_tile({x = position.x + entity_pos.x, y = position.y + entity_pos.y})
+          end
         end
       else
         local prototype = entity_prototypes[entity.name]
