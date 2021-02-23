@@ -2,6 +2,8 @@ local event = require("__flib__.event")
 local gui = require("__flib__.gui-beta")
 local migration = require("__flib__.migration")
 
+local constants = require("constants")
+
 local buttons_gui = require("scripts.gui.buttons")
 local global_data = require("scripts.global-data")
 local migrations = require("scripts.migrations")
@@ -32,7 +34,10 @@ end)
 
 event.on_configuration_changed(function(e)
   if migration.on_config_changed(e, migrations) then
-
+    for i, player in pairs(game.players) do
+      local player_table = global.players[i]
+      player_data.refresh(player, player_table)
+    end
   end
 end)
 
@@ -72,6 +77,22 @@ event.register("bpt-configure", function(e)
   end
 end)
 
+event.register({"bpt-activate-deconstruction-clipboard", "bpt-activate-upgrade-clipboard"}, function(e)
+  local _, _, type = string.find(e.input_name, "bpt%-activate%-(.*)%-clipboard")
+
+  local player = game.get_player(e.player_index)
+  local player_table = global.players[e.player_index]
+
+  local cursor_stack = player.cursor_stack
+  if cursor_stack then
+    local clipboard_book = player_table.clipboards[constants.clipboard_indices[type]]
+    local clipboard_inventory = clipboard_book.get_inventory(defines.inventory.item_main)
+    if not clipboard_inventory.is_empty() and player.clear_cursor() then
+      cursor_stack.set_stack(clipboard_book)
+    end
+  end
+end)
+
 event.register("bpt-linked-confirm-gui", function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
@@ -80,6 +101,13 @@ event.register("bpt-linked-confirm-gui", function(e)
     set_tiles_gui.handle_action(e, {action = "confirm"})
     player.play_sound{path = "utility/confirm"}
   end
+end)
+
+-- event.register({"bpt-linked-cycle-blueprint-backwards", "bpt-linked-cycle-blueprint-forwards"}, function(e)
+--   local direction = e.input_name == "bpt-linked-cycle-blueprint-backwards" and -1 or 1
+-- end)
+
+event.register("bpt-linked-clear-cursor", function(e)
 end)
 
 -- GUI

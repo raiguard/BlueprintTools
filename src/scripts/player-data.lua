@@ -1,16 +1,17 @@
 local buttons_gui = require("scripts.gui.buttons")
+local clipboard = require("scripts.clipboard")
 
 local player_data = {}
 
 function player_data.init(player_index)
   global.players[player_index] = {
+    clipboards = clipboard.create(),
     flags = {
       blueprint_buttons_shown = false,
       upgrade_planner_buttons_shown = false,
       deconstruction_planner_buttons_shown = false
     },
     guis = {},
-    holder_inventory = game.create_inventory(1),
     settings = {}
   }
 end
