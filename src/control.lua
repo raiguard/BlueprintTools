@@ -32,7 +32,10 @@ end)
 
 event.on_configuration_changed(function(e)
   if migration.on_config_changed(e, migrations) then
-
+    for i, player in pairs(game.players) do
+      local player_table = global.players[i]
+      player_data.refresh(player, player_table)
+    end
   end
 end)
 
@@ -120,36 +123,62 @@ end)
 event.on_player_cursor_stack_changed(function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
-  local cursor_stack = player.cursor_stack
+  if player_table.settings.show_buttons then
+    local cursor_stack = player.cursor_stack
 
-  local blueprint = util.get_blueprint(cursor_stack)
-  local blueprint_buttons_shown = player_table.flags.blueprint_buttons_shown
+    local blueprint = util.get_blueprint(cursor_stack)
+    local blueprint_buttons_shown = player_table.flags.blueprint_buttons_shown
 
-  if blueprint then
-    local is_setup = blueprint.is_blueprint_setup()
-    if is_setup and not blueprint_buttons_shown then
-      buttons_gui.show(player_table, "blueprint")
-    elseif not is_setup and blueprint_buttons_shown then
+    if blueprint then
+      local is_setup = blueprint.is_blueprint_setup()
+      if is_setup and not blueprint_buttons_shown then
+        buttons_gui.show(player_table, "blueprint")
+      elseif not is_setup and blueprint_buttons_shown then
+        buttons_gui.hide(player_table, "blueprint")
+      end
+    elseif blueprint_buttons_shown then
       buttons_gui.hide(player_table, "blueprint")
     end
-  elseif blueprint_buttons_shown then
-    buttons_gui.hide(player_table, "blueprint")
-  end
 
-  if cursor_stack.is_upgrade_item then
-    buttons_gui.show(player_table, "upgrade_planner")
-  elseif player_table.flags.upgrade_planner_buttons_shown then
-    buttons_gui.hide(player_table, "upgrade_planner")
-  end
+    if cursor_stack.is_upgrade_item then
+      buttons_gui.show(player_table, "upgrade_planner")
+    elseif player_table.flags.upgrade_planner_buttons_shown then
+      buttons_gui.hide(player_table, "upgrade_planner")
+    end
 
-  if cursor_stack.is_deconstruction_item then
-    buttons_gui.show(player_table, "deconstruction_planner")
-  elseif player_table.flags.deconstruction_planner_buttons_shown then
-    buttons_gui.hide(player_table, "deconstruction_planner")
+    if cursor_stack.is_deconstruction_item then
+      buttons_gui.show(player_table, "deconstruction_planner")
+    elseif player_table.flags.deconstruction_planner_buttons_shown then
+      buttons_gui.hide(player_table, "deconstruction_planner")
+    end
   end
 
   -- if the set tiles GUI is open and the cursor stack changes in any way, close it
   if player_table.guis.set_tiles then
     set_tiles_gui.destroy(player_table)
+  end
+end)
+
+-- SETTINGS
+
+event.on_runtime_mod_setting_changed(function(e)
+  if string.sub(e.setting, 1, 4) == "bpt-" then
+    local player = game.get_player(e.player_index)
+    local player_table = global.players[e.player_index]
+    player_data.update_settings(player, player_table)
+
+    -- hide the buttons if they are currently shown and they need to be hidden
+    if not player_table.settings.show_buttons then
+      local flags = player_table.flags
+      if flags.blueprint_buttons_shown then
+        buttons_gui.hide(player_table, "blueprint")
+      end
+      if flags.upgrade_planner_buttons_shown then
+        buttons_gui.hide(player_table, "upgrade_planner")
+      end
+      if flags.deconstruction_planner_buttons_shown then
+        buttons_gui.hide(player_table, "deconstruction_planner")
+      end
+    end
   end
 end)

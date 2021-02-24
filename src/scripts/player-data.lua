@@ -1,3 +1,5 @@
+local constants = require("constants")
+
 local buttons_gui = require("scripts.gui.buttons")
 
 local player_data = {}
@@ -15,7 +17,20 @@ function player_data.init(player_index)
   }
 end
 
+function player_data.update_settings(player, player_table)
+  local mod_settings = player.mod_settings
+  local settings = {}
+
+  for internal, prototype in pairs(constants.settings) do
+    settings[internal] = mod_settings[prototype].value
+  end
+
+  player_table.settings = settings
+end
+
 function player_data.refresh(player, player_table)
+  player_data.update_settings(player, player_table)
+
   buttons_gui.refresh(player, player_table)
 end
 

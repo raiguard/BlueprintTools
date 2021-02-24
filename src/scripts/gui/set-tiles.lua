@@ -31,8 +31,8 @@ function set_tiles_gui.build(player, player_table)
           {type = "flow", style_mods = {left_margin = 8}, direction = "vertical", children = {
             {
               type = "checkbox",
-              caption = {"bpt-gui.fill-gaps"},
-              tooltip = {"bpt-gui.fill-gaps-description"},
+              caption = {"gui.bpt-fill-gaps"},
+              tooltip = {"gui.bpt-fill-gaps-description"},
               state = true,
               ref = {"fill_gaps_checkbox"}
             },
@@ -40,8 +40,8 @@ function set_tiles_gui.build(player, player_table)
               {
                 type = "label",
                 style_mods = {right_margin = 8},
-                caption = {"bpt-gui.margin"},
-                tooltip = {"bpt-gui.margin-description"}
+                caption = {"gui.bpt-margin"},
+                tooltip = {"gui.bpt-margin-description"}
               },
               {
                 type = "textfield",

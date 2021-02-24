@@ -8,7 +8,7 @@ local function mod_gui_button(color, action)
     type = "sprite-button",
     style = "bpt_mod_gui_button_"..color,
     sprite = "bpt_"..action.."_white",
-    tooltip = {"bpt-gui."..string.gsub(string.gsub(action, "bpt_", ""), "_", "-").."-tooltip"},
+    tooltip = {"gui.bpt-"..string.gsub(string.gsub(action, "bpt_", ""), "_", "-").."-tooltip"},
     elem_mods = {visible = false},
     actions = {
       on_click = {gui = "buttons", action = action}
@@ -24,8 +24,6 @@ function buttons_gui.refresh(player, player_table)
     button.destroy()
   end
   player_table.guis.blueprint_buttons = gui.build(button_flow, {
-    -- mod_gui_button("blue", "flip_horizontally"),
-    -- mod_gui_button("blue", "flip_vertically"),
     mod_gui_button("blue", "swap_wire_colors"),
     mod_gui_button("blue", "set_tiles"),
     mod_gui_button("blue", "quick_grid"),
