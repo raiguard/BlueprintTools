@@ -4,6 +4,8 @@ local table = require("__flib__.table")
 local util = require("scripts.util")
 
 local function quick_grid(player)
+  local player_table = global.players[player.index]
+
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then return end
 
@@ -25,8 +27,7 @@ local function quick_grid(player)
       GridArea:expand_to_contain_area(area.move(box, entity.position))
     end
   end
-  -- TODO: nil check?
-  if global.players[player.index].settings.consider_tiles_for_quick_grid then
+  if player_table.settings.consider_tiles_for_quick_grid then
     for _, tile in pairs(tiles) do
       -- add 0.5 to tile position to avoid off-by-one error on the right and bottom edges
       GridArea:expand_to_contain_position({x = tile.position.x + 0.5, y = tile.position.y + 0.5})
