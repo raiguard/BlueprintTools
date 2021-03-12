@@ -12,7 +12,6 @@ function player_data.init(player_index)
       deconstruction_planner_buttons_shown = false
     },
     guis = {},
-    holder_inventory = game.create_inventory(1),
     settings = {}
   }
 end
