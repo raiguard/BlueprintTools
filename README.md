@@ -1,5 +1,23 @@
-# Factorio Mod Template
+# Blueprint Tools
 
-This is a template repository for a new Factorio mod based on [flib](https://github.com/factoriolib/flib). I made this for myself, but feel free to use it for your own mods as well if you like.
+Blueprint Tools is a Factorio mod adding various blueprint manipulation tools to the game.
 
-**NOTE:** if you use the template, _do not_ clone your repository into your `mods` folder! Clone it to a development folder, then symlink (junction) the `src` subfolder into `mods`.
+[Download on the Mod Portal.](https://mods.factorio.com/mod/BlueprintTools)
+
+## Features
+
+### Quick configuration
+
+When holding a configured blueprint, an upgrade planner, or a deconstruction planner, use `Shift + B` or press the GUI button to open the configuration window for that item. This is especially useful for upgrade and deconstruction planners, allowing you to quickly grab a planner, configure it how you need, use it a few times, then destroy it with ease.
+
+### Swap wire colors
+
+Press `Shift + C` or press the button to swap a blueprint's circuit wire colors.
+
+### Set tiles
+
+Press `Shift + T` or press the button to open the `Set tiles` GUI. This function will place tiles under the entities in your blueprint, with an option to fill gaps and add margins around each entity or the entire blueprint.
+
+### Quick-grid
+
+Press `Shift + G` or press the button to quickly set a relative grid on the currently held blueprint. The grid will be set to the size of the blueprint. For custom grids, use the `Quick configuration` hotkey and do it through the GUI.
