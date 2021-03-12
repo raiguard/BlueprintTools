@@ -214,7 +214,8 @@ constants.rail_tiles = {
 }
 
 constants.settings = {
-  show_buttons = "bpt-show-buttons"
+  show_buttons = "bpt-show-buttons",
+  consider_tiles_for_quick_grid = "bpt-consider-tiles-for-quick-grid"
 }
 
 return constants
