@@ -51,6 +51,13 @@ local function quick_grid(player)
   end
 
   -- set grid dimensions and snapping mode
+  local result = {x = GridArea:width(), y = GridArea:height()}
+  local existing_snap = blueprint.blueprint_snap_to_grid
+  if existing_snap and existing_snap.x == result.x and existing_snap.y == result.y then
+    -- Swap absolute snapping setting
+    blueprint.blueprint_absolute_snapping = not blueprint.blueprint_absolute_snapping
+    return
+  end
   blueprint.blueprint_snap_to_grid = {x = GridArea:width(), y = GridArea:height()}
   blueprint.blueprint_absolute_snapping = false
 
