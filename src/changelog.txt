@@ -4,6 +4,8 @@ Date: ????
   Features:
     - Set Tiles now works with other tiles in the blueprint
     - Using quick grid after a quick grid has already been set on the item will swap between relative and absolute snapping
+  Bugfixes:
+    - Fixed a crash when using quick grid or set tiles on an blueprint with only tiles
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2021-03-12

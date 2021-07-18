@@ -12,7 +12,9 @@ local function quick_grid(player)
   local entities = blueprint.get_blueprint_entities() or {}
   local tiles = blueprint.get_blueprint_tiles() or {}
 
-  local GridArea = area.load(area.from_position(entities[1].position))
+  local first_obj = entities[1] or tiles[1]
+
+  local GridArea = area.load(area.from_position(first_obj.position))
   local entity_prototypes = game.entity_prototypes
 
   -- iterate entities and tiles to calculate needed grid size
