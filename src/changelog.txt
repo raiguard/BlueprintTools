@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.0
-Date: ????
+Date: 2021-10-02
   Features:
     - Added settings to show/hide individual feature buttons
     - Added hotkeys to "nudge" a blueprint's grid in each direction
