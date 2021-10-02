@@ -9,7 +9,7 @@ function util.get_blueprint(item_stack)
     return item_stack
   elseif item_stack.is_blueprint_book and item_stack.active_index then
     local inventory = item_stack.get_inventory(defines.inventory.item_main)
-    if inventory.is_empty() or item_stack.stack_index > #inventory then return end
+    if inventory.is_empty() or item_stack.active_index > #inventory then return end
     return util.get_blueprint(inventory[item_stack.active_index])
   end
 end
