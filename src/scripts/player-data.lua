@@ -12,7 +12,12 @@ function player_data.init(player_index)
       deconstruction_planner_buttons_shown = false
     },
     guis = {},
-    settings = {}
+    set_tiles_settings = {
+      fill_gaps = true,
+      margin = 0,
+      tile = "landfill",
+    },
+    settings = {},
   }
 end
 
@@ -31,6 +36,12 @@ function player_data.refresh(player, player_table)
   player_data.update_settings(player, player_table)
 
   buttons_gui.refresh(player, player_table)
+
+  -- If the tile does not exist
+  if not game.tile_prototypes[player_table.set_tiles_settings.tile] then
+    -- Set it to `nil`
+    player_table.set_tiles_settings.tile = nil
+  end
 end
 
 return player_data

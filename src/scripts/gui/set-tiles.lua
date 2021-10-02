@@ -5,6 +5,7 @@ local set_tiles = require("scripts.processors.set-tiles")
 local set_tiles_gui = {}
 
 function set_tiles_gui.build(player, player_table)
+  local settings = player_table.set_tiles_settings
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
@@ -20,7 +21,7 @@ function set_tiles_gui.build(player, player_table)
             type = "choose-elem-button",
             style = "slot_button_in_shallow_frame",
             elem_type = "tile",
-            tile = "landfill",
+            tile = settings.tile,
             elem_filters = {{filter = "blueprintable"}},
             actions = {
               on_elem_changed = {gui = "set_tiles", action = "update_tile"}
@@ -33,7 +34,7 @@ function set_tiles_gui.build(player, player_table)
               type = "checkbox",
               caption = {"gui.bpt-fill-gaps"},
               tooltip = {"gui.bpt-fill-gaps-description"},
-              state = true,
+              state = settings.fill_gaps,
               ref = {"fill_gaps_checkbox"}
             },
             {type = "flow", style_mods = {vertical_align = "center"}, ref = {"margin_flow"}, children = {
@@ -46,8 +47,8 @@ function set_tiles_gui.build(player, player_table)
               {
                 type = "textfield",
                 style_mods = {width = 50, horizontal_align = "center"},
-                text = "0",
-                numeric = true,
+                text = tostring(settings.margin),
+                numeric = settings.margin,
                 ref = {"margin_textfield"}
               }
             }}
@@ -109,7 +110,16 @@ function set_tiles_gui.handle_action(e, msg)
   elseif msg.action == "confirm" then
     local tile_name = refs.tile_button.elem_value
     if tile_name then
-      set_tiles(player, tile_name, refs.fill_gaps_checkbox.state, tonumber(refs.margin_textfield.text))
+      -- Save settings
+      local settings = player_table.set_tiles_settings
+      settings.tile = tile_name
+      settings.fill_gaps = refs.fill_gaps_checkbox.state
+      settings.margin = tonumber(refs.margin_textfield.text)
+
+      -- Modify the blueprint
+      set_tiles(player, tile_name, settings.fill_gaps, settings.margin)
+
+      -- Destroy the GUI
       set_tiles_gui.destroy(player_table)
     end
   elseif msg.action == "update_tile" then
