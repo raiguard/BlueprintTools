@@ -214,8 +214,11 @@ constants.rail_tiles = {
 }
 
 constants.settings = {
-  show_buttons = "bpt-show-buttons",
-  consider_tiles_for_quick_grid = "bpt-consider-tiles-for-quick-grid"
+  consider_tiles_for_quick_grid = "bpt-consider-tiles-for-quick-grid",
+  show_swap_wire_colors = "bpt-show-swap-wire-colors",
+  show_set_tiles = "bpt-show-set-tiles",
+  show_quick_grid = "bpt-show-quick-grid",
+  show_configure = "bpt-show-configure",
 }
 
 return constants
