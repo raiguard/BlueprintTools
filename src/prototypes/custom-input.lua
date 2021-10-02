@@ -24,5 +24,25 @@ data:extend{
     name = "bpt-linked-confirm-gui",
     key_sequence = "",
     linked_game_control = "confirm-gui"
-  }
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-grid-up",
+    key_sequence = "SHIFT + UP",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-grid-down",
+    key_sequence = "SHIFT + DOWN",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-grid-left",
+    key_sequence = "SHIFT + LEFT",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-grid-right",
+    key_sequence = "SHIFT + RIGHT",
+  },
 }

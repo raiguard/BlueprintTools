@@ -8,6 +8,7 @@ local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
+local nudge_grid = require("scripts.processors.nudge-grid")
 local quick_grid = require("scripts.processors.quick-grid")
 local set_tiles_gui = require("scripts.gui.set-tiles")
 local swap_wire_colors = require("scripts.processors.swap-wire-colors")
@@ -79,6 +80,22 @@ event.register("bpt-linked-confirm-gui", function(e)
     set_tiles_gui.handle_action(e, {action = "confirm"})
     player.play_sound{path = "utility/confirm"}
   end
+end)
+
+event.register("bpt-nudge-grid-up", function(e)
+  nudge_grid(game.get_player(e.player_index), {x = 0, y = 1})
+end)
+
+event.register("bpt-nudge-grid-down", function(e)
+  nudge_grid(game.get_player(e.player_index), {x = 0, y = -1})
+end)
+
+event.register("bpt-nudge-grid-left", function(e)
+  nudge_grid(game.get_player(e.player_index), {x = 1, y = 0})
+end)
+
+event.register("bpt-nudge-grid-right", function(e)
+  nudge_grid(game.get_player(e.player_index), {x = -1, y = 0})
 end)
 
 -- GUI
