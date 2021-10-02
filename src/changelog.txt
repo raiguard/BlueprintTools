@@ -5,6 +5,8 @@ Date: ????
     - Added settings to show/hide individual feature buttons
     - Added hotkeys to "nudge" a blueprint's grid in each direction
       - Defaults to shift + arrow keys
+  Bugfixes:
+    - Fixed a crash when using the mod on a nested blueprint book in some cases
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 2021-07-18
