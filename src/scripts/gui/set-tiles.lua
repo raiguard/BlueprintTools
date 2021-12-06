@@ -31,7 +31,11 @@ function set_tiles_gui.build(player, player_table)
               },
               ref = { "tile_button" },
             },
-            { type = "line", style_mods = { left_margin = 8, vertically_stretchable = true }, direction = "vertical" },
+            {
+              type = "line",
+              style_mods = { left_margin = 8, vertically_stretchable = true },
+              direction = "vertical",
+            },
             {
               type = "flow",
               style_mods = { left_margin = 8 },

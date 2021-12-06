@@ -1,5 +1,10 @@
 local constants = {}
 
+constants.curved_rail_grid_sizes = {
+  { left_top = { x = -2, y = -4 }, right_bottom = { x = 2, y = 4 } },
+  { left_top = { x = -4, y = -2 }, right_bottom = { x = 4, y = 2 } },
+}
+
 -- collisions for diagonal and curved rails are hardcoded
 -- each table is a direction -> colliding tiles mapping, relative to the centerpoint of the entity
 constants.rail_tiles = {
