@@ -48,7 +48,7 @@ event.register("bpt-set-tiles", function(e)
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
     local blueprint = util.get_blueprint(cursor_stack)
-    if blueprint and blueprint.is_blueprint_setup() then
+    if blueprint then
       set_tiles_gui.build(player, player_table)
     end
   end
@@ -64,7 +64,7 @@ event.register("bpt-configure", function(e)
   if cursor_stack and cursor_stack.valid_for_read then
     local blueprint = util.get_blueprint(cursor_stack)
     if
-      (blueprint and blueprint.is_blueprint_setup())
+      blueprint
       or (cursor_stack.is_upgrade_item or cursor_stack.is_deconstruction_item)
     then
       player.opened = cursor_stack
@@ -141,13 +141,8 @@ event.on_player_cursor_stack_changed(function(e)
   local blueprint = util.get_blueprint(cursor_stack)
   local blueprint_buttons_shown = player_table.flags.blueprint_buttons_shown
 
-  if blueprint then
-    local is_setup = blueprint.is_blueprint_setup()
-    if is_setup and not blueprint_buttons_shown then
-      buttons_gui.show(player_table, "blueprint")
-    elseif not is_setup and blueprint_buttons_shown then
-      buttons_gui.hide(player_table, "blueprint")
-    end
+  if blueprint and not blueprint_buttons_shown then
+    buttons_gui.show(player_table, "blueprint")
   elseif blueprint_buttons_shown then
     buttons_gui.hide(player_table, "blueprint")
   end
