@@ -2,7 +2,9 @@ local util = require("scripts.util")
 
 local function swap_wire_colors(player)
   local blueprint = util.get_blueprint(player.cursor_stack)
-  if not blueprint then return end
+  if not blueprint then
+    return
+  end
 
   local entities = blueprint.get_blueprint_entities()
 

@@ -10,77 +10,95 @@ function set_tiles_gui.build(player, player_table)
     {
       type = "frame",
       direction = "vertical",
-      caption = {"controls.bpt-set-tiles"},
-      ref = {"window"},
+      caption = { "controls.bpt-set-tiles" },
+      ref = { "window" },
       actions = {
-        on_closed = {gui = "set_tiles", action = "close"},
+        on_closed = { gui = "set_tiles", action = "close" },
       },
       children = {
-        {type = "frame", style = "inside_shallow_frame_with_padding", children = {
-          {
-            type = "choose-elem-button",
-            style = "slot_button_in_shallow_frame",
-            elem_type = "tile",
-            tile = settings.tile,
-            elem_filters = {{filter = "blueprintable"}},
-            actions = {
-              on_elem_changed = {gui = "set_tiles", action = "update_tile"}
-            },
-            ref = {"tile_button"}
-          },
-          {type = "line", style_mods = {left_margin = 8, vertically_stretchable = true}, direction = "vertical"},
-          {type = "flow", style_mods = {left_margin = 8}, direction = "vertical", children = {
+        {
+          type = "frame",
+          style = "inside_shallow_frame_with_padding",
+          children = {
             {
-              type = "checkbox",
-              caption = {"gui.bpt-fill-gaps"},
-              tooltip = {"gui.bpt-fill-gaps-description"},
-              state = settings.fill_gaps,
-              ref = {"fill_gaps_checkbox"}
-            },
-            {type = "flow", style_mods = {vertical_align = "center"}, ref = {"margin_flow"}, children = {
-              {
-                type = "label",
-                style_mods = {right_margin = 8},
-                caption = {"gui.bpt-margin"},
-                tooltip = {"gui.bpt-margin-description"}
+              type = "choose-elem-button",
+              style = "slot_button_in_shallow_frame",
+              elem_type = "tile",
+              tile = settings.tile,
+              elem_filters = { { filter = "blueprintable" } },
+              actions = {
+                on_elem_changed = { gui = "set_tiles", action = "update_tile" },
               },
-              {
-                type = "textfield",
-                style_mods = {width = 50, horizontal_align = "center"},
-                text = tostring(settings.margin),
-                numeric = settings.margin,
-                ref = {"margin_textfield"}
-              }
-            }}
-          }}
-        }},
-        {type = "flow", style = "dialog_buttons_horizontal_flow", children = {
-          {
-            type = "button",
-            style = "back_button",
-            caption = {"gui.cancel"},
-            actions = {
-              on_click = {gui = "set_tiles", action = "close"}
-            }
+              ref = { "tile_button" },
+            },
+            { type = "line", style_mods = { left_margin = 8, vertically_stretchable = true }, direction = "vertical" },
+            {
+              type = "flow",
+              style_mods = { left_margin = 8 },
+              direction = "vertical",
+              children = {
+                {
+                  type = "checkbox",
+                  caption = { "gui.bpt-fill-gaps" },
+                  tooltip = { "gui.bpt-fill-gaps-description" },
+                  state = settings.fill_gaps,
+                  ref = { "fill_gaps_checkbox" },
+                },
+                {
+                  type = "flow",
+                  style_mods = { vertical_align = "center" },
+                  ref = { "margin_flow" },
+                  children = {
+                    {
+                      type = "label",
+                      style_mods = { right_margin = 8 },
+                      caption = { "gui.bpt-margin" },
+                      tooltip = { "gui.bpt-margin-description" },
+                    },
+                    {
+                      type = "textfield",
+                      style_mods = { width = 50, horizontal_align = "center" },
+                      text = tostring(settings.margin),
+                      numeric = settings.margin,
+                      ref = { "margin_textfield" },
+                    },
+                  },
+                },
+              },
+            },
           },
-          {
-            type = "empty-widget",
-            style = "flib_dialog_footer_drag_handle",
-            style_mods = {minimal_width = 24},
-            ref = {"footer_drag_handle"}
+        },
+        {
+          type = "flow",
+          style = "dialog_buttons_horizontal_flow",
+          children = {
+            {
+              type = "button",
+              style = "back_button",
+              caption = { "gui.cancel" },
+              actions = {
+                on_click = { gui = "set_tiles", action = "close" },
+              },
+            },
+            {
+              type = "empty-widget",
+              style = "flib_dialog_footer_drag_handle",
+              style_mods = { minimal_width = 24 },
+              ref = { "footer_drag_handle" },
+            },
+            {
+              type = "button",
+              style = "confirm_button",
+              caption = { "gui.confirm" },
+              ref = { "confirm_button" },
+              actions = {
+                on_click = { gui = "set_tiles", action = "confirm" },
+              },
+            },
           },
-          {
-            type = "button",
-            style = "confirm_button",
-            caption = {"gui.confirm"},
-            ref = {"confirm_button"},
-            actions = {
-              on_click = {gui = "set_tiles", action = "confirm"}
-            }
-          }
-        }}
-      }
-    }
+        },
+      },
+    },
   })
 
   refs.footer_drag_handle.drag_target = refs.window
@@ -89,7 +107,7 @@ function set_tiles_gui.build(player, player_table)
   player.opened = refs.window
 
   player_table.guis.set_tiles = {
-    refs = refs
+    refs = refs,
   }
 end
 

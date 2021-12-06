@@ -9,7 +9,7 @@ function player_data.init(player_index)
     flags = {
       blueprint_buttons_shown = false,
       upgrade_planner_buttons_shown = false,
-      deconstruction_planner_buttons_shown = false
+      deconstruction_planner_buttons_shown = false,
     },
     guis = {},
     set_tiles_settings = {

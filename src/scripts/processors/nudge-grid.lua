@@ -3,8 +3,12 @@ local util = require("scripts.util")
 return function(player, delta)
   ---@type LuaItemStack
   local blueprint = util.get_blueprint(player.cursor_stack)
-  if not blueprint then return end
-  if not blueprint.blueprint_snap_to_grid then return end
+  if not blueprint then
+    return
+  end
+  if not blueprint.blueprint_snap_to_grid then
+    return
+  end
 
   local entities = blueprint.get_blueprint_entities() or {}
   local tiles = blueprint.get_blueprint_tiles() or {}

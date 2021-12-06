@@ -63,10 +63,7 @@ event.register("bpt-configure", function(e)
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
     local blueprint = util.get_blueprint(cursor_stack)
-    if
-      blueprint
-      or (cursor_stack.is_upgrade_item or cursor_stack.is_deconstruction_item)
-    then
+    if blueprint or (cursor_stack.is_upgrade_item or cursor_stack.is_deconstruction_item) then
       player.opened = cursor_stack
     end
   end
@@ -77,25 +74,25 @@ event.register("bpt-linked-confirm-gui", function(e)
   local player_table = global.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
   if gui_data and gui_data.refs.confirm_button.enabled then
-    set_tiles_gui.handle_action(e, {action = "confirm"})
-    player.play_sound{path = "utility/confirm"}
+    set_tiles_gui.handle_action(e, { action = "confirm" })
+    player.play_sound({ path = "utility/confirm" })
   end
 end)
 
 event.register("bpt-nudge-grid-up", function(e)
-  nudge_grid(game.get_player(e.player_index), {x = 0, y = 1})
+  nudge_grid(game.get_player(e.player_index), { x = 0, y = 1 })
 end)
 
 event.register("bpt-nudge-grid-down", function(e)
-  nudge_grid(game.get_player(e.player_index), {x = 0, y = -1})
+  nudge_grid(game.get_player(e.player_index), { x = 0, y = -1 })
 end)
 
 event.register("bpt-nudge-grid-left", function(e)
-  nudge_grid(game.get_player(e.player_index), {x = 1, y = 0})
+  nudge_grid(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
 event.register("bpt-nudge-grid-right", function(e)
-  nudge_grid(game.get_player(e.player_index), {x = -1, y = 0})
+  nudge_grid(game.get_player(e.player_index), { x = -1, y = 0 })
 end)
 
 -- GUI

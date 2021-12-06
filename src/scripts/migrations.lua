@@ -7,5 +7,5 @@ return {
         tile = "landfill",
       }
     end
-  end
+  end,
 }

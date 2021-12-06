@@ -1,6 +1,6 @@
 local button_icons_file = "__BlueprintTools__/graphics/button-icons.png"
 
-data:extend{
+data:extend({
   {
     type = "sprite",
     name = "bpt_flip_horizontally_white",
@@ -8,7 +8,7 @@ data:extend{
     y = 0,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
+    flags = { "icon" },
   },
   {
     type = "sprite",
@@ -17,7 +17,7 @@ data:extend{
     y = 32,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
+    flags = { "icon" },
   },
   {
     type = "sprite",
@@ -26,7 +26,7 @@ data:extend{
     y = 64,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
+    flags = { "icon" },
   },
   {
     type = "sprite",
@@ -35,7 +35,7 @@ data:extend{
     y = 96,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
+    flags = { "icon" },
   },
   {
     type = "sprite",
@@ -44,7 +44,7 @@ data:extend{
     y = 128,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
+    flags = { "icon" },
   },
   {
     type = "sprite",
@@ -53,6 +53,6 @@ data:extend{
     y = 160,
     size = 32,
     mipmap_count = 2,
-    flags = {"icon"}
-  }
-}
+    flags = { "icon" },
+  },
+})
