@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.2
-Date: ????
+Date: 2022-03-13
   Bugfixes:
     - Fixed a crash when leaving the set-tiles margin textfield blank (#13)
     - Fixed that it was possible to input non-numbers in the set-tile margin textfield
