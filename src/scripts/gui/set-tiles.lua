@@ -63,7 +63,7 @@ function set_tiles_gui.build(player, player_table)
                       type = "textfield",
                       style_mods = { width = 50, horizontal_align = "center" },
                       text = tostring(settings.margin),
-                      numeric = settings.margin,
+                      numeric = true,
                       ref = { "margin_textfield" },
                     },
                   },
@@ -136,7 +136,7 @@ function set_tiles_gui.handle_action(e, msg)
       local settings = player_table.set_tiles_settings
       settings.tile = tile_name
       settings.fill_gaps = refs.fill_gaps_checkbox.state
-      settings.margin = tonumber(refs.margin_textfield.text)
+      settings.margin = tonumber(refs.margin_textfield.text) or 0
 
       -- Modify the blueprint
       set_tiles(player, tile_name, settings.fill_gaps, settings.margin)
