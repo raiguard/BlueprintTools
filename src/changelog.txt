@@ -2,6 +2,8 @@
 Version: 1.2.3
 Date: ????
   Changes:
+  Bugfixes:
+    - Fixed issue with buttons getting hidden when switching from one blueprint item stack to another.
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.2
 Date: 2022-03-13

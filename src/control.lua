@@ -140,7 +140,7 @@ event.on_player_cursor_stack_changed(function(e)
 
   if blueprint and not blueprint_buttons_shown then
     buttons_gui.show(player_table, "blueprint")
-  elseif blueprint_buttons_shown then
+  elseif not blueprint and blueprint_buttons_shown then
     buttons_gui.hide(player_table, "blueprint")
   end
 
