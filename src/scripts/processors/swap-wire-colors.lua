@@ -7,6 +7,9 @@ local function swap_wire_colors(player)
   end
 
   local entities = blueprint.get_blueprint_entities()
+  if not entities then
+    return
+  end
 
   for _, entity in pairs(entities) do
     if entity.connections then
