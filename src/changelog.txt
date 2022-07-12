@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.2.3
-Date: ????
+Date: 2022-07-11
   Bugfixes:
     - Fixed a crash when using "swap wire colors" on a blueprint that contained no entities (https://todo.sr.ht/~raiguard/factorio-mods/49)
     - Fixed issue with buttons getting hidden when switching from one blueprint item stack to another.
