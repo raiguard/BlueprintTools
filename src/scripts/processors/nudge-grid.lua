@@ -15,7 +15,7 @@ return function(player, delta)
 
   local entities = blueprint.get_blueprint_entities() or {}
   local tiles = blueprint.get_blueprint_tiles() or {}
-  local build_grid_size = util.get_blueprint_largest_build_grid_size(blueprint)
+  local build_grid_size = util.get_blueprint_largest_build_grid_size({blueprint})
 
   for _, entity in pairs(entities) do
     entity.position.x = entity.position.x + delta.x * build_grid_size

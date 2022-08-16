@@ -2,7 +2,7 @@
 Version: 1.2.4
 Date: ????
   Features:
-    - Added hotkeys to "nudge" blueprint's absolute grid position in each direction.
+    - Added hotkeys to "nudge" blueprint's absolute grid position in each direction (for either an individual blueprint or an entire blueprint book).
   Bugfixes:
     - Fixed rail and train stop positions in blueprints getting messed-up when nudging the grid.
 ---------------------------------------------------------------------------------------------------

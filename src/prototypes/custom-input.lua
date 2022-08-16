@@ -77,4 +77,28 @@ data:extend({
     key_sequence = "CONTROL + SHIFT + RIGHT",
     order = "cd",
   },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-absolute-grid-book-up",
+    key_sequence = "SHIFT + ALT + UP",
+    order = "da",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-absolute-grid-book-down",
+    key_sequence = "SHIFT + ALT + DOWN",
+    order = "db",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-absolute-grid-book-left",
+    key_sequence = "SHIFT + ALT + LEFT",
+    order = "dc",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-nudge-absolute-grid-book-right",
+    key_sequence = "SHIFT + ALT + RIGHT",
+    order = "dd",
+  }
 })
