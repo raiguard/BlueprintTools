@@ -21,3 +21,11 @@ Press `Shift + T` or press the button to open the `Set tiles` GUI. This function
 ### Quick-grid
 
 Press `Shift + G` or press the button to quickly set a relative grid on the currently held blueprint. The grid will be set to the size of the blueprint. For custom grids, use the `Quick configuration` hotkey and do it through the GUI.
+
+### Adjust grid position
+
+Press `Shift + Up/Down/Left/Right` to adjust the grid position relative to blueprint entitites. Ideal for aligning tileable defenses and rails.
+
+### Adjust absolute grid position
+
+Press `Control + Shift + Up/Down/Left/Right` to adjust the absolute grid position offsets. Blueprint size is taken into account when setting the offsets to avoid having excessivly high offset values. Excellent option when working on city block-style bases.

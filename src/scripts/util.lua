@@ -34,4 +34,39 @@ function util.get_rail_tiles(entity)
   return category[entity.direction or 0]
 end
 
+--- Displays notification for player at cursor position.
+--
+-- @param player LuaPlayer Player to notify.
+-- @param message LocalisedString Message to show to player.
+-- @param sound SoundPath|nil Optional sound to play for the player.
+--
+function util.cursor_notification(player, message, sound)
+  player.create_local_flying_text{
+    text = message,
+    create_at_cursor = true
+  }
+
+  if sound then
+    player.play_sound{path = sound}
+  end
+end
+
+--- Calculates largest build grid size for entities in the passed-in blueprint.
+--
+-- Useful when dealing with things like rails and trains stops that can only be repositioned in increments of two.
+--
+-- @param blueprint LuaItemStack Blueprint for which to calculate the value. Must be valid for read.
+--
+function util.get_blueprint_largest_build_grid_size(blueprint)
+  local build_grid_size = 1
+
+  for _, entity in pairs(blueprint.get_blueprint_entities()) do
+    if game.entity_prototypes[entity.name].building_grid_bit_shift > build_grid_size then
+      build_grid_size = game.entity_prototypes[entity.name].building_grid_bit_shift
+    end
+  end
+
+  return build_grid_size
+end
+
 return util
