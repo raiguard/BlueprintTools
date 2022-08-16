@@ -28,6 +28,6 @@ Press `Shift + Up/Down/Left/Right` to adjust the grid position relative to bluep
 
 ### Adjust absolute grid position
 
-Press `Control + Shift + Up/Down/Left/Right` (for individual blueprints) or `Shift + Alt + Up/Down/Left/Right` (for all blueprints with absolute grid position in a book) to adjust the absolute grid position offsets. Blueprint size is taken into account when setting the offsets to avoid having excessivly high offset values. Excellent option when working on city block-style bases.
+Press `Control + Shift + Up/Down/Left/Right` (for individual blueprints) to adjust the absolute grid position offsets. Blueprint size is taken into account when setting the offsets to avoid having excessivly high offset values. Excellent option when working on city block-style bases.
 
-When adjusting all blueprints in a book, currently selected blueprint must have absolute grid position enabled.
+Separate controls are also available to perform the same action on *all* blueprints in a blueprint book. Controls for this operation are not set by default in order to avoid accidents (see the `Nudge absolute grid up/down/left/right (book)` controls in settings). When adjusting all blueprints in a book, currently selected blueprint must have absolute grid position enabled.

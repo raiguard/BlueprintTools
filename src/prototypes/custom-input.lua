@@ -80,25 +80,25 @@ data:extend({
   {
     type = "custom-input",
     name = "bpt-nudge-absolute-grid-book-up",
-    key_sequence = "SHIFT + ALT + UP",
+    key_sequence = "",
     order = "da",
   },
   {
     type = "custom-input",
     name = "bpt-nudge-absolute-grid-book-down",
-    key_sequence = "SHIFT + ALT + DOWN",
+    key_sequence = "",
     order = "db",
   },
   {
     type = "custom-input",
     name = "bpt-nudge-absolute-grid-book-left",
-    key_sequence = "SHIFT + ALT + LEFT",
+    key_sequence = "",
     order = "dc",
   },
   {
     type = "custom-input",
     name = "bpt-nudge-absolute-grid-book-right",
-    key_sequence = "SHIFT + ALT + RIGHT",
+    key_sequence = "",
     order = "dd",
   }
 })
