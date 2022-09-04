@@ -3,7 +3,6 @@ local gui = require("__flib__.gui-beta")
 local migration = require("__flib__.migration")
 
 local buttons_gui = require("scripts.gui.buttons")
-local global_data = require("scripts.global-data")
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local util = require("scripts.util")
@@ -21,7 +20,7 @@ local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 -- BOOTSTRAP
 
 event.on_init(function()
-  global_data.init()
+  global.players = {}
 
   for i, player in pairs(game.players) do
     player_data.init(i)
