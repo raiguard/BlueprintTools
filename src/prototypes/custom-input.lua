@@ -1,4 +1,5 @@
 data:extend({
+  { type = "custom-input", name = "bpt-import-string", key_sequence = "ALT + I", order = "a" },
   {
     type = "custom-input",
     name = "bpt-swap-wire-colors",
@@ -22,12 +23,6 @@ data:extend({
     name = "bpt-configure",
     key_sequence = "SHIFT + B",
     order = "ad",
-  },
-  {
-    type = "custom-input",
-    name = "bpt-linked-confirm-gui",
-    key_sequence = "",
-    linked_game_control = "confirm-gui",
   },
   {
     type = "custom-input",
@@ -100,5 +95,17 @@ data:extend({
     name = "bpt-nudge-absolute-grid-book-right",
     key_sequence = "",
     order = "dd",
-  }
+  },
+  {
+    type = "custom-input",
+    name = "bpt-linked-confirm-gui",
+    key_sequence = "",
+    linked_game_control = "confirm-gui",
+  },
+  {
+    type = "custom-input",
+    name = "bpt-linked-clear-cursor",
+    key_sequence = "",
+    linked_game_control = "clear-cursor",
+  },
 })

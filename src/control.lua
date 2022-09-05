@@ -1,8 +1,10 @@
 local event = require("__flib__.event")
-local gui = require("__flib__.gui-beta")
+local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
 local buttons_gui = require("scripts.gui.buttons")
+local import_string_gui = require("scripts.gui.import-string")
+local library_shortcuts_gui = require("scripts.gui.library-shortcuts")
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local util = require("scripts.util")
@@ -39,6 +41,11 @@ end)
 
 -- CUSTOM INPUTS
 
+event.register("bpt-import-string", function(e)
+  local player = game.get_player(e.player_index)
+  import_string_gui.build(player)
+end)
+
 event.register("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
 end)
@@ -67,16 +74,6 @@ event.register("bpt-configure", function(e)
     if blueprint or (cursor_stack.is_upgrade_item or cursor_stack.is_deconstruction_item) then
       player.opened = cursor_stack
     end
-  end
-end)
-
-event.register("bpt-linked-confirm-gui", function(e)
-  local player = game.get_player(e.player_index)
-  local player_table = global.players[e.player_index]
-  local gui_data = player_table.guis.set_tiles
-  if gui_data and gui_data.refs.confirm_button.enabled then
-    set_tiles_gui.handle_action(e, { action = "confirm" })
-    player.play_sound({ path = "utility/confirm" })
   end
 end)
 
@@ -132,6 +129,30 @@ event.register("bpt-nudge-absolute-grid-book-right", function(e)
   nudge_absolute_grid_book(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
+event.register("bpt-linked-confirm-gui", function(e)
+  local player = game.get_player(e.player_index)
+  local player_table = global.players[e.player_index]
+  local gui_data = player_table.guis.set_tiles
+  if gui_data and gui_data.refs.confirm_button.enabled then
+    set_tiles_gui.handle_action(e, { action = "confirm" })
+    player.play_sound({ path = "utility/confirm" })
+  end
+end)
+
+event.register("bpt-linked-clear-cursor", function(e)
+  local player = game.get_player(e.player_index)
+  local player_table = global.players[e.player_index]
+  local cursor_stack = player.cursor_stack
+  if player_table.flags.holding_temporary_item and cursor_stack.valid_for_read then
+    local item_type = cursor_stack.type
+    if item_type == "blueprint" and not cursor_stack.is_blueprint_setup() then
+      cursor_stack.clear()
+    elseif item_type == "blueprint-book" or item_type == "upgrade-item" or item_type == "deconstruction-item" then
+      cursor_stack.clear()
+    end
+  end
+end)
+
 -- GUI
 
 gui.hook_events(function(e)
@@ -152,6 +173,10 @@ gui.hook_events(function(e)
       end
     elseif action.gui == "set_tiles" then
       set_tiles_gui.handle_action(e, action)
+    elseif action.gui == "library_shortcuts" then
+      library_shortcuts_gui.handle_action(player, player_table, action)
+    elseif action.gui == "import_string" then
+      import_string_gui.handle_action(player, action)
     end
   end
 end)
@@ -171,6 +196,12 @@ event.on_player_cursor_stack_changed(function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
+
+  if player_table.flags.setting_temporary_item then
+    player_table.flags.setting_temporary_item = false
+  elseif player_table.flags.holding_temporary_item then
+    player_table.flags.holding_temporary_item = false
+  end
 
   local blueprint = util.get_blueprint(cursor_stack)
   local blueprint_buttons_shown = player_table.flags.blueprint_buttons_shown
@@ -206,18 +237,20 @@ event.on_runtime_mod_setting_changed(function(e)
     local player = game.get_player(e.player_index)
     local player_table = global.players[e.player_index]
     player_data.update_settings(player, player_table)
-    buttons_gui.refresh(player, player_table)
-
-    local flags = player_table.flags
-
-    if flags.blueprint_buttons_shown then
-      buttons_gui.show(player_table, "blueprint")
-    end
-    if flags.upgrade_planner_buttons_shown then
-      buttons_gui.show(player_table, "upgrade_planner")
-    end
-    if flags.deconstruction_planner_buttons_shown then
-      buttons_gui.show(player_table, "deconstruction_planner")
+    if e.setting == "bpt-show-library-shortcuts" then
+      library_shortcuts_gui.refresh(player, player_table)
+    else
+      buttons_gui.refresh(player, player_table)
+      local flags = player_table.flags
+      if flags.blueprint_buttons_shown then
+        buttons_gui.show(player_table, "blueprint")
+      end
+      if flags.upgrade_planner_buttons_shown then
+        buttons_gui.show(player_table, "upgrade_planner")
+      end
+      if flags.deconstruction_planner_buttons_shown then
+        buttons_gui.show(player_table, "deconstruction_planner")
+      end
     end
   end
 end)

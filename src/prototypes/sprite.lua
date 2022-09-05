@@ -1,3 +1,5 @@
+local constants = require("constants")
+
 local button_icons_file = "__BlueprintTools__/graphics/button-icons.png"
 
 data:extend({
@@ -56,3 +58,14 @@ data:extend({
     flags = { "icon" },
   },
 })
+
+-- Generate sprites for library shortcuts
+for _, prototype_name in pairs(constants.library_shortcut_prototypes) do
+  local prototype = data.raw["shortcut"][prototype_name]
+  if prototype then
+    local sprite = table.deepcopy(prototype.icon)
+    sprite.type = "sprite"
+    sprite.name = "bpt_shortcut_sprite_" .. prototype_name
+    data:extend({ sprite })
+  end
+end

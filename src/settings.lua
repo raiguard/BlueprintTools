@@ -29,4 +29,11 @@ data:extend({
     setting_type = "runtime-per-user",
     default_value = true,
   },
+  {
+    type = "bool-setting",
+    name = "bpt-show-library-shortcuts",
+    setting_type = "runtime-per-user",
+    default_value = true,
+    order = "a",
+  },
 })

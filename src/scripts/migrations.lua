@@ -8,4 +8,10 @@ return {
       }
     end
   end,
+  ["1.3.0"] = function()
+    for _, player_table in pairs(global.players) do
+      player_table.holding_temporary_item = false
+      player_table.setting_temporary_item = false
+    end
+  end,
 }

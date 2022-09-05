@@ -5,6 +5,14 @@ constants.curved_rail_grid_sizes = {
   { left_top = { x = -4, y = -2 }, right_bottom = { x = 4, y = 2 } },
 }
 
+constants.library_shortcut_prototypes = {
+  "import-string",
+  "give-blueprint",
+  "give-blueprint-book",
+  "give-deconstruction-planner",
+  "give-upgrade-planner",
+}
+
 -- collisions for diagonal and curved rails are hardcoded
 -- each table is a direction -> colliding tiles mapping, relative to the centerpoint of the entity
 constants.rail_tiles = {
@@ -224,6 +232,7 @@ constants.settings = {
   show_set_tiles = "bpt-show-set-tiles",
   show_quick_grid = "bpt-show-quick-grid",
   show_configure = "bpt-show-configure",
+  show_library_shortcuts = "bpt-show-library-shortcuts",
 }
 
 return constants

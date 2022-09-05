@@ -2,7 +2,9 @@
 Version: 1.3.0
 Date: ????
   Features:
+    - Added blueprint shortcut buttons to blueprint library
     - Added hotkeys to "nudge" blueprint's absolute grid position in each direction (for either an individual blueprint or an entire blueprint book).
+    - Added hotkey to open blueprint string import window (default: ALT + I)
   Bugfixes:
     - Fixed rail and train stop positions in blueprints getting messed-up when nudging the grid.
 ---------------------------------------------------------------------------------------------------
