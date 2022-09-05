@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.3.0
-Date: ????
+Date: 2022-09-04
   Features:
     - Added blueprint shortcut buttons to blueprint library
     - Added hotkeys to "nudge" blueprint's absolute grid position in each direction (for either an individual blueprint or an entire blueprint book).
