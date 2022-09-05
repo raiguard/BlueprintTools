@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.2.4
+Version: 1.3.0
 Date: ????
   Features:
     - Added hotkeys to "nudge" blueprint's absolute grid position in each direction (for either an individual blueprint or an entire blueprint book).
