@@ -2,6 +2,8 @@
 Version: 1.3.1
 Date: ????
   Features:
+  Bugfixes:
+    - Fix button tooltips not being readable when holding a named blueprint (due to text overlap).
 ---------------------------------------------------------------------------------------------------
 Version: 1.3.0
 Date: 2022-09-04
