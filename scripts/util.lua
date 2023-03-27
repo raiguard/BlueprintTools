@@ -13,7 +13,7 @@ function util.get_blueprint(item_stack)
   if item_stack.is_blueprint then
     blueprint = item_stack
   elseif item_stack.is_blueprint_book and item_stack.active_index then
-    local inventory = item_stack.get_inventory(defines.inventory.item_main)
+    local inventory = item_stack.get_inventory(defines.inventory.item_main) --[[@as LuaInventory]]
     if inventory.is_empty() or item_stack.active_index > #inventory then
       return
     end
@@ -25,6 +25,7 @@ function util.get_blueprint(item_stack)
   end
 end
 
+--- @param entity LuaEntity
 function util.get_rail_tiles(entity)
   local category = constants.rail_tiles[game.entity_prototypes[entity.name].type]
   if not category then
@@ -35,11 +36,9 @@ function util.get_rail_tiles(entity)
 end
 
 --- Displays notification for player at cursor position.
---
--- @param player LuaPlayer Player to notify.
--- @param message LocalisedString Message to show to player.
--- @param sound SoundPath|nil Optional sound to play for the player.
---
+--- @param player LuaPlayer Player to notify.
+--- @param message LocalisedString Message to show to player.
+--- @param sound SoundPath|nil Optional sound to play for the player.
 function util.cursor_notification(player, message, sound)
   player.create_local_flying_text({
     text = message,
@@ -52,11 +51,8 @@ function util.cursor_notification(player, message, sound)
 end
 
 --- Calculates largest build grid size for all entities in the passed-in list of blueprints.
---
--- Useful when dealing with things like rails and train stops that can only be repositioned in increments of two.
---
--- @param blueprint {LuaItemStack} List of blueprints for which to calculate the value. Must be valid for read.
---
+--- Useful when dealing with things like rails and train stops that can only be repositioned in increments of two.
+--- @param blueprints LuaItemStack[] List of blueprints for which to calculate the value. Must be valid for read.
 function util.get_blueprint_largest_build_grid_size(blueprints)
   local build_grid_size = 1
 
@@ -72,23 +68,20 @@ function util.get_blueprint_largest_build_grid_size(blueprints)
 end
 
 --- Returns list of all blueprints in a blueprint book.
---
---
--- @param book LuaItemStack Blueprint book to traverse.
---
--- @return {LuaItemStack} List of blueprints from the passed-in book.
---
+--- @param book LuaItemStack
+--- @return LuaItemStack[]
 function util.get_book_blueprints(book)
-  -- Helper function that recursively collects blueprints from the passed-in blueprint book and stores them in the passed-in result table.
+  --- Helper function that recursively collects blueprints from the passed-in blueprint book and stores them in the passed-in result table.
+  --- @param book LuaItemStack
+  --- @param result_table LuaItemStack[]
   local function collect_blueprints(book, result_table)
-    local items = book.get_inventory(defines.inventory.item_main)
-
+    local items = book.get_inventory(defines.inventory.item_main) --[[@as LuaInventory]]
     for i = 1, #items do
       local item = items[i]
       if not item then
         return
       elseif item.is_blueprint_book then
-        process_book(items, result_table)
+        collect_blueprints(item, result_table)
       elseif item.is_blueprint then
         table.insert(result_table, item)
       end
@@ -96,9 +89,7 @@ function util.get_book_blueprints(book)
   end
 
   local blueprints = {}
-
   collect_blueprints(book, blueprints)
-
   return blueprints
 end
 
