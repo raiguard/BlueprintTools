@@ -1,6 +1,6 @@
 {
   "name": "BlueprintTools",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "title": "Blueprint Tools",
   "description": "Tools for manipulating blueprints - swap wire colors, set tiles, quick-grid, configuration hotkey. Spiritual successor to Blueprint Extensions.",
   "author": "raiguard",
