@@ -25,10 +25,10 @@ local function quick_grid(player)
     local prototype = entity_prototypes[entity.name]
     if prototype then
       local box = (
-          prototype.type == "curved-rail"
-            and table.deep_copy(constants.curved_rail_grid_sizes[math.floor((entity.direction or 0) / 2) % 2 + 1])
-          or prototype.collision_box
-        )
+        prototype.type == "curved-rail"
+          and table.deep_copy(constants.curved_rail_grid_sizes[math.floor((entity.direction or 0) / 2) % 2 + 1])
+        or prototype.collision_box
+      )
       GridArea:expand_to_contain_area(area.move(box, entity.position))
     end
   end

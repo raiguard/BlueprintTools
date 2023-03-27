@@ -41,13 +41,13 @@ end
 -- @param sound SoundPath|nil Optional sound to play for the player.
 --
 function util.cursor_notification(player, message, sound)
-  player.create_local_flying_text{
+  player.create_local_flying_text({
     text = message,
-    create_at_cursor = true
-  }
+    create_at_cursor = true,
+  })
 
   if sound then
-    player.play_sound{path = sound}
+    player.play_sound({ path = sound })
   end
 end
 
@@ -79,7 +79,6 @@ end
 -- @return {LuaItemStack} List of blueprints from the passed-in book.
 --
 function util.get_book_blueprints(book)
-
   -- Helper function that recursively collects blueprints from the passed-in blueprint book and stores them in the passed-in result table.
   local function collect_blueprints(book, result_table)
     local items = book.get_inventory(defines.inventory.item_main)

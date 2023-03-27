@@ -9,13 +9,13 @@ return function(player, delta)
   end
 
   if not blueprint.blueprint_snap_to_grid then
-    util.cursor_notification(player, {"message.bpt-blueprint-snap-to-grid-disabled"}, "utility/cannot_build")
+    util.cursor_notification(player, { "message.bpt-blueprint-snap-to-grid-disabled" }, "utility/cannot_build")
     return
   end
 
   local entities = blueprint.get_blueprint_entities() or {}
   local tiles = blueprint.get_blueprint_tiles() or {}
-  local build_grid_size = util.get_blueprint_largest_build_grid_size({blueprint})
+  local build_grid_size = util.get_blueprint_largest_build_grid_size({ blueprint })
 
   for _, entity in pairs(entities) do
     entity.position.x = entity.position.x + delta.x * build_grid_size
