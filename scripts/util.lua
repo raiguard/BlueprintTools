@@ -57,7 +57,7 @@ function util.get_blueprint_largest_build_grid_size(blueprints)
   local build_grid_size = 1
 
   for _, blueprint in pairs(blueprints) do
-    for _, entity in pairs(blueprint.get_blueprint_entities()) do
+    for _, entity in pairs(blueprint.get_blueprint_entities() or {}) do
       if game.entity_prototypes[entity.name].building_grid_bit_shift > build_grid_size then
         build_grid_size = game.entity_prototypes[entity.name].building_grid_bit_shift
       end
