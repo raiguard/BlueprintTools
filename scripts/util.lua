@@ -25,7 +25,7 @@ function util.get_blueprint(item_stack)
   end
 end
 
---- @param entity LuaEntity
+--- @param entity BlueprintEntity
 function util.get_rail_tiles(entity)
   local category = constants.rail_tiles[game.entity_prototypes[entity.name].type]
   if not category then
@@ -91,6 +91,16 @@ function util.get_book_blueprints(book)
   local blueprints = {}
   collect_blueprints(book, blueprints)
   return blueprints
+end
+
+--- @param box BoundingBox
+--- @param callback fun(pos: MapPosition)
+function util.for_each_position(box, callback)
+  for y = box.left_top.y, box.right_bottom.y - 1 do
+    for x = box.left_top.x, box.right_bottom.x - 1 do
+      callback({ x = x, y = y })
+    end
+  end
 end
 
 return util

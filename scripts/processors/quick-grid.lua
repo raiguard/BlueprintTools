@@ -1,4 +1,4 @@
-local area = require("__flib__.area")
+local flib_bounding_box = require("__flib__.bounding-box")
 local table = require("__flib__.table")
 
 local constants = require("constants")
@@ -17,33 +17,33 @@ local function quick_grid(player)
 
   local first_obj = entities[1] or tiles[1]
 
-  local GridArea = area.load(area.from_position(first_obj.position))
+  local box = flib_bounding_box.from_position(first_obj.position)
   local entity_prototypes = game.entity_prototypes
 
   -- iterate entities and tiles to calculate needed grid size
   for _, entity in pairs(entities) do
     local prototype = entity_prototypes[entity.name]
     if prototype then
-      local box = (
+      local entity_box = (
         prototype.type == "curved-rail"
           and table.deep_copy(constants.curved_rail_grid_sizes[math.floor((entity.direction or 0) / 2) % 2 + 1])
         or prototype.collision_box
       )
-      GridArea:expand_to_contain_area(area.move(box, entity.position))
+      box = flib_bounding_box.expand_to_contain_box(box, flib_bounding_box.move(entity_box, entity.position))
     end
   end
   if player_table.settings.consider_tiles_for_quick_grid then
     for _, tile in pairs(tiles) do
       -- add 0.5 to tile position to avoid off-by-one error on the right and bottom edges
-      GridArea:expand_to_contain_position({ x = tile.position.x + 0.5, y = tile.position.y + 0.5 })
+      box = flib_bounding_box.expand_to_contain_position(box, { x = tile.position.x + 0.5, y = tile.position.y + 0.5 })
     end
   end
 
   -- ceil to outside edges
-  GridArea:ceil()
+  box = flib_bounding_box.ceil(box)
 
   -- offset is simply how far away from 0,0 the top-left of the area is
-  local offset = { x = GridArea.left_top.x, y = GridArea.left_top.y }
+  local offset = { x = box.left_top.x, y = box.left_top.y }
 
   -- move all entities and tiles by the offset
   for _, entity in pairs(entities) do
@@ -56,14 +56,14 @@ local function quick_grid(player)
   end
 
   -- set grid dimensions and snapping mode
-  local result = { x = GridArea:width(), y = GridArea:height() }
+  local result = { x = flib_bounding_box.width(box), y = flib_bounding_box.height(box) }
   local existing_snap = blueprint.blueprint_snap_to_grid
   if existing_snap and existing_snap.x == result.x and existing_snap.y == result.y then
     -- Swap absolute snapping setting
     blueprint.blueprint_absolute_snapping = not blueprint.blueprint_absolute_snapping
     return
   end
-  blueprint.blueprint_snap_to_grid = { x = GridArea:width(), y = GridArea:height() }
+  blueprint.blueprint_snap_to_grid = { x = flib_bounding_box.width(box), y = flib_bounding_box.height(box) }
   blueprint.blueprint_absolute_snapping = false
 
   -- set updated entities
