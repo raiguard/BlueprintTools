@@ -1,4 +1,3 @@
-local event = require("__flib__.event")
 local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
@@ -21,7 +20,7 @@ local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
 -- BOOTSTRAP
 
-event.on_init(function()
+script.on_init(function()
   global.players = {}
 
   for i, player in pairs(game.players) do
@@ -30,7 +29,7 @@ event.on_init(function()
   end
 end)
 
-event.on_configuration_changed(function(e)
+script.on_configuration_changed(function(e)
   if migration.on_config_changed(e, migrations) then
     for i, player in pairs(game.players) do
       local player_table = global.players[i]
@@ -41,16 +40,16 @@ end)
 
 -- CUSTOM INPUTS
 
-event.register("bpt-import-string", function(e)
+script.on_event("bpt-import-string", function(e)
   local player = game.get_player(e.player_index)
   import_string_gui.build(player)
 end)
 
-event.register("bpt-swap-wire-colors", function(e)
+script.on_event("bpt-swap-wire-colors", function(e)
   swap_wire_colors(game.get_player(e.player_index))
 end)
 
-event.register("bpt-set-tiles", function(e)
+script.on_event("bpt-set-tiles", function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
@@ -62,11 +61,11 @@ event.register("bpt-set-tiles", function(e)
   end
 end)
 
-event.register("bpt-quick-grid", function(e)
+script.on_event("bpt-quick-grid", function(e)
   quick_grid(game.get_player(e.player_index))
 end)
 
-event.register("bpt-configure", function(e)
+script.on_event("bpt-configure", function(e)
   local player = game.get_player(e.player_index)
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
@@ -77,59 +76,59 @@ event.register("bpt-configure", function(e)
   end
 end)
 
-event.register("bpt-nudge-grid-up", function(e)
+script.on_event("bpt-nudge-grid-up", function(e)
   nudge_grid(game.get_player(e.player_index), { x = 0, y = 1 })
 end)
 
-event.register("bpt-nudge-grid-down", function(e)
+script.on_event("bpt-nudge-grid-down", function(e)
   nudge_grid(game.get_player(e.player_index), { x = 0, y = -1 })
 end)
 
-event.register("bpt-nudge-grid-left", function(e)
+script.on_event("bpt-nudge-grid-left", function(e)
   nudge_grid(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
-event.register("bpt-nudge-grid-right", function(e)
+script.on_event("bpt-nudge-grid-right", function(e)
   nudge_grid(game.get_player(e.player_index), { x = -1, y = 0 })
 end)
 
 -- Absolute grid nudging "reverses" directions compared to regular
 -- grid nudging so it would make more sense for the player (otherwise
 -- blueprint moves opposited direction to what the player presses).
-event.register("bpt-nudge-absolute-grid-up", function(e)
+script.on_event("bpt-nudge-absolute-grid-up", function(e)
   nudge_absolute_grid(game.get_player(e.player_index), { x = 0, y = -1 })
 end)
 
-event.register("bpt-nudge-absolute-grid-down", function(e)
+script.on_event("bpt-nudge-absolute-grid-down", function(e)
   nudge_absolute_grid(game.get_player(e.player_index), { x = 0, y = 1 })
 end)
 
-event.register("bpt-nudge-absolute-grid-left", function(e)
+script.on_event("bpt-nudge-absolute-grid-left", function(e)
   nudge_absolute_grid(game.get_player(e.player_index), { x = -1, y = 0 })
 end)
 
-event.register("bpt-nudge-absolute-grid-right", function(e)
+script.on_event("bpt-nudge-absolute-grid-right", function(e)
   nudge_absolute_grid(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
 -- Absolute grid nudging for all blueprints in a book.
-event.register("bpt-nudge-absolute-grid-book-up", function(e)
+script.on_event("bpt-nudge-absolute-grid-book-up", function(e)
   nudge_absolute_grid_book(game.get_player(e.player_index), { x = 0, y = -1 })
 end)
 
-event.register("bpt-nudge-absolute-grid-book-down", function(e)
+script.on_event("bpt-nudge-absolute-grid-book-down", function(e)
   nudge_absolute_grid_book(game.get_player(e.player_index), { x = 0, y = 1 })
 end)
 
-event.register("bpt-nudge-absolute-grid-book-left", function(e)
+script.on_event("bpt-nudge-absolute-grid-book-left", function(e)
   nudge_absolute_grid_book(game.get_player(e.player_index), { x = -1, y = 0 })
 end)
 
-event.register("bpt-nudge-absolute-grid-book-right", function(e)
+script.on_event("bpt-nudge-absolute-grid-book-right", function(e)
   nudge_absolute_grid_book(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
-event.register("bpt-linked-confirm-gui", function(e)
+script.on_event("bpt-linked-confirm-gui", function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
@@ -139,7 +138,7 @@ event.register("bpt-linked-confirm-gui", function(e)
   end
 end)
 
-event.register("bpt-linked-clear-cursor", function(e)
+script.on_event("bpt-linked-clear-cursor", function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
@@ -183,16 +182,16 @@ end)
 
 -- PLAYER
 
-event.on_player_created(function(e)
+script.on_event(defines.events.on_player_created, function(e)
   player_data.init(e.player_index)
   player_data.refresh(game.get_player(e.player_index), global.players[e.player_index])
 end)
 
-event.on_player_removed(function(e)
+script.on_event(defines.events.on_player_removed, function(e)
   global.players[e.player_index] = nil
 end)
 
-event.on_player_cursor_stack_changed(function(e)
+script.on_event(defines.events.on_player_cursor_stack_changed, function(e)
   local player = game.get_player(e.player_index)
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
@@ -232,7 +231,7 @@ end)
 
 -- SETTINGS
 
-event.on_runtime_mod_setting_changed(function(e)
+script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
   if string.sub(e.setting, 1, 4) == "bpt-" then
     local player = game.get_player(e.player_index)
     local player_table = global.players[e.player_index]
