@@ -51,6 +51,9 @@ end)
 
 script.on_event("bpt-set-tiles", function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
@@ -67,6 +70,9 @@ end)
 
 script.on_event("bpt-configure", function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
     local blueprint = util.get_blueprint(cursor_stack)
@@ -130,6 +136,9 @@ end)
 
 script.on_event("bpt-linked-confirm-gui", function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local player_table = global.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
   if gui_data and gui_data.refs.confirm_button.enabled then
@@ -140,6 +149,9 @@ end)
 
 script.on_event("bpt-linked-clear-cursor", function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
   if player_table.flags.holding_temporary_item and cursor_stack.valid_for_read then
@@ -156,6 +168,9 @@ end)
 
 gui.hook_events(function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local player_table = global.players[e.player_index]
   local action = gui.read_action(e)
 
@@ -193,6 +208,9 @@ end)
 
 script.on_event(defines.events.on_player_cursor_stack_changed, function(e)
   local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
   local player_table = global.players[e.player_index]
   local cursor_stack = player.cursor_stack
 
@@ -234,6 +252,9 @@ end)
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
   if string.sub(e.setting, 1, 4) == "bpt-" then
     local player = game.get_player(e.player_index)
+    if not player then
+      return
+    end
     local player_table = global.players[e.player_index]
     player_data.update_settings(player, player_table)
     if e.setting == "bpt-show-library-shortcuts" then
