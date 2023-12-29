@@ -11,6 +11,7 @@ local util = require("scripts.util")
 local nudge_grid = require("scripts.processors.nudge-grid")
 local nudge_absolute_grid = require("scripts.processors.nudge-absolute-grid")
 local nudge_absolute_grid_book = require("scripts.processors.nudge-absolute-grid-book")
+local planner_pipette = require("scripts.processors.planner-pipette")
 local quick_grid = require("scripts.processors.quick-grid")
 local set_tiles_gui = require("scripts.gui.set-tiles")
 local swap_wire_colors = require("scripts.processors.swap-wire-colors")
@@ -22,6 +23,7 @@ local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 
 script.on_init(function()
   global.players = {}
+  planner_pipette.cache_downgrades()
 
   for i, player in pairs(game.players) do
     player_data.init(i)
@@ -30,6 +32,8 @@ script.on_init(function()
 end)
 
 script.on_configuration_changed(function(e)
+  planner_pipette.cache_downgrades()
+
   if migration.on_config_changed(e, migrations) then
     for i, player in pairs(game.players) do
       local player_table = global.players[i]

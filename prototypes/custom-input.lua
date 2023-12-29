@@ -108,4 +108,22 @@ data:extend({
     key_sequence = "",
     linked_game_control = "clear-cursor",
   },
+  {
+    type = "custom-input",
+    name = "bpt-pipette-add",
+    key_sequence = "SHIFT + mouse-button-3",
+    include_selected_prototype = true,
+  },
+  {
+    type = "custom-input",
+    name = "bpt-pipette-remove",
+    key_sequence = "CONTROL + mouse-button-3",
+    include_selected_prototype = true,
+  },
+  {
+    type = "custom-input",
+    name = "bpt-pipette-downgrade",
+    key_sequence = "SHIFT + ALT + mouse-button-3",
+    include_selected_prototype = true,
+  }
 })
