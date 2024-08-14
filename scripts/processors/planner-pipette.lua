@@ -15,7 +15,6 @@ local function get_selected_prototype(event)
   local selected = event.selected_prototype
   if not selected then return end
 
-  local prototype
   if selected.base_type == "entity" then
     local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
     local selected_entity = player.selected
@@ -27,6 +26,8 @@ local function get_selected_prototype(event)
     end
     return selected_entity.prototype
 
+  -- _CodeGreen: I couldn't find anything in game where I could click on an item or recipe that actually had a CustomInputEvent fire
+  -- But the code to handle them is here, I guess
   elseif selected.base_type == "item" then
     local item = game.item_prototypes[selected.name]
     local place_result = item.place_result
@@ -158,7 +159,7 @@ script.on_event("bpt-pipette-downgrade", function(event)
 
   local prototype = get_selected_prototype(event)
   if not prototype then return end
-  
+
   local downgrade = global.downgrades[prototype.name]
   local next_upgrade = prototype.next_upgrade
   local to = downgrade or (next_upgrade and next_upgrade.name)
