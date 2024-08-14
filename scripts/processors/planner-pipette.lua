@@ -7,20 +7,29 @@ local function get_cursor_stack(index)
   return cursor
 end
 
----@param selected SelectedPrototypeData?
+---@param event EventData.CustomInputEvent
 ---@return LuaEntityPrototype?
-local function get_selected_prototype(selected)
+local function get_selected_prototype(event)
+  local selected = event.selected_prototype
   if not selected then return end
 
   local prototype
   if selected.base_type == "entity" then
-    prototype = game.entity_prototypes[selected.name]
+    local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local selected_entity = player.selected
+    if not selected_entity then
+      return game.entity_prototypes[selected.name]
+    end
+    if selected_entity.type == "entity-ghost" and selected_entity.ghost_prototype.type ~= "tile" then
+      return selected_entity.ghost_prototype --[[@as LuaEntityPrototype]]
+    end
+    return selected_entity.prototype
 
   elseif selected.base_type == "item" then
     local item = game.item_prototypes[selected.name]
     local place_result = item.place_result
     if not place_result then return end
-    prototype = place_result
+    return place_result
 
   elseif selected.base_type == "recipe" then
     local recipe = game.recipe_prototypes[selected.name]
@@ -32,15 +41,11 @@ local function get_selected_prototype(selected)
       local item = item_prototypes[product.name]
       local place_result = item.place_result
       if place_result then
-        prototype = place_result
-        break
+        return place_result
       end
       ::continue::
     end
-    if not prototype then return end
   end
-
-  return prototype
 end
 
 ---@param cursor LuaItemStack
@@ -94,7 +99,7 @@ end
 script.on_event("bpt-pipette-add", function(event)
   local cursor = get_cursor_stack(event.player_index)
   if not cursor then return end
-  local prototype = get_selected_prototype(event.selected_prototype)
+  local prototype = get_selected_prototype(event)
   if not prototype then return end
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
@@ -133,7 +138,7 @@ end
 script.on_event("bpt-pipette-remove", function(event)
   local cursor = get_cursor_stack(event.player_index)
   if not cursor then return end
-  local prototype = get_selected_prototype(event.selected_prototype)
+  local prototype = get_selected_prototype(event)
   if not prototype then return end
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
@@ -147,7 +152,6 @@ end)
 ---@param cursor LuaItemStack
 ---@param prototype LuaEntityPrototype
 local function add_downgrade(cursor, prototype)
-
   if not cursor.is_upgrade_item then return end
   local downgrade = global.downgrades[prototype.name]
   local next_upgrade = prototype.next_upgrade
@@ -158,7 +162,7 @@ end
 script.on_event("bpt-pipette-downgrade", function(event)
   local cursor = get_cursor_stack(event.player_index)
   if not cursor then return end
-  local prototype = get_selected_prototype(event.selected_prototype)
+  local prototype = get_selected_prototype(event)
   if not prototype then return end
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
