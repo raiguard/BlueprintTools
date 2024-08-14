@@ -175,6 +175,7 @@ end)
 local lib = {}
 
 function lib.cache_downgrades()
+    ---@type table<string, string>
   local downgrades = {}
   global.downgrades = downgrades
 
