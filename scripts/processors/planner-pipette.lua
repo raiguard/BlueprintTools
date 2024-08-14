@@ -1,3 +1,5 @@
+local util = require("scripts.util")
+
 ---@param index uint
 ---@return LuaItemStack?
 local function get_cursor_stack(index)
@@ -70,7 +72,7 @@ local function add_upgrade_filter(cursor, from, to)
     end
   end
 
-  if not first_index then return end -- TODO: add flying text warning?
+  if not first_index then return end
   cursor.set_mapper(first_index, "from", {type = "entity", name = from})
   cursor.set_mapper(first_index, "to", {type = "entity", name = to})
   return true
@@ -82,7 +84,7 @@ end
 local function add_filter(cursor, prototype)
   if cursor.is_deconstruction_item then
     local filters = cursor.entity_filters
-    if #filters == cursor.entity_filter_count then return end -- TODO: add flying text warning?
+    if #filters == cursor.entity_filter_count then return end
     for _, filter in pairs(filters) do
       if filter == prototype.name then return end
     end
@@ -106,7 +108,7 @@ script.on_event("bpt-pipette-add", function(event)
   if add_filter(cursor, prototype) then
     player.play_sound{path = "utility/smart_pipette"}
   else
-    player.play_sound{path = "utility/cannot_build"}
+    util.cursor_notification(player, { "message.bpt-unable-to-add-filter" }, "utility/cannot_build")
   end
 end)
 
@@ -145,31 +147,27 @@ script.on_event("bpt-pipette-remove", function(event)
   if remove_filter(cursor, prototype) then
     player.play_sound{path = "utility/clear_cursor"}
   else
-    player.play_sound{path = "utility/cannot_build"}
+    util.cursor_notification(player, { "message.bpt-unable-to-remove-filter" }, "utility/cannot_build")
   end
 end)
-
----@param cursor LuaItemStack
----@param prototype LuaEntityPrototype
-local function add_downgrade(cursor, prototype)
-  if not cursor.is_upgrade_item then return end
-  local downgrade = global.downgrades[prototype.name]
-  local next_upgrade = prototype.next_upgrade
-  local to = downgrade or (next_upgrade and next_upgrade.name)
-  return add_upgrade_filter(cursor, prototype.name, to)
-end
 
 script.on_event("bpt-pipette-downgrade", function(event)
   local cursor = get_cursor_stack(event.player_index)
   if not cursor then return end
+  if not cursor.is_upgrade_item then return end
+
   local prototype = get_selected_prototype(event)
   if not prototype then return end
+  
+  local downgrade = global.downgrades[prototype.name]
+  local next_upgrade = prototype.next_upgrade
+  local to = downgrade or (next_upgrade and next_upgrade.name)
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
-  if add_downgrade(cursor, prototype) then
+  if add_upgrade_filter(cursor, prototype.name, to) then
     player.play_sound{path = "utility/smart_pipette"}
   else
-    player.play_sound{path = "utility/cannot_build"}
+    util.cursor_notification(player, { "message.bpt-unable-to-add-filter" }, "utility/cannot_build")
   end
 end)
 
