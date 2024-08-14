@@ -54,9 +54,11 @@ end
 ---@param cursor LuaItemStack
 ---@param from string
 ---@param to string?
----@return boolean?
+---@return LocalisedString?
 local function add_upgrade_filter(cursor, from, to)
-  if not to then return end
+  if not to then
+    return "message.bpt-entity-cannot-upgrade"
+  end
 
   local first_index
   for i = 1, cursor.prototype.mapper_count do
@@ -64,33 +66,41 @@ local function add_upgrade_filter(cursor, from, to)
     local name = mapper.name
     if name then
       if mapper.type == "entity" and name == from then
-        if cursor.get_mapper(i, "to").name == to then return end
+        if cursor.get_mapper(i, "to").name == to then
+          return "message.bpt-filter-already-present"
+        end
         cursor.set_mapper(i, "to", {type = "entity", name = to})
-        return true
+        return
       end
     else
       first_index = first_index or i
     end
   end
 
-  if not first_index then return end
+  if not first_index then
+    return "message.bpt-filters-full"
+  end
   cursor.set_mapper(first_index, "from", {type = "entity", name = from})
   cursor.set_mapper(first_index, "to", {type = "entity", name = to})
-  return true
 end
 
 ---@param cursor LuaItemStack
 ---@param prototype LuaEntityPrototype
----@return boolean?
+---@return LocalisedString?
 local function add_filter(cursor, prototype)
   if cursor.is_deconstruction_item then
     local filters = cursor.entity_filters
-    if #filters == cursor.entity_filter_count then return end
-    for _, filter in pairs(filters) do
-      if filter == prototype.name then return end
+    if #filters == cursor.entity_filter_count then
+      return "message.bpt-filters-full"
     end
-    cursor.set_entity_filter(#cursor.entity_filters+1, prototype)
-    return true
+    for _, filter in pairs(filters) do
+      if filter == prototype.name then
+        return "message.bpt-filter-already-present"
+      end
+    end
+    if not cursor.set_entity_filter(#cursor.entity_filters+1, prototype) then
+      return "message.bpt-unable-to-add-filter"
+    end
 
   elseif cursor.is_upgrade_item then
     local next_upgrade = prototype.next_upgrade
@@ -106,23 +116,24 @@ script.on_event("bpt-pipette-add", function(event)
   if not prototype then return end
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
-  if add_filter(cursor, prototype) then
-    player.play_sound{path = "utility/smart_pipette"}
+  local message = add_filter(cursor, prototype)
+  if message then
+    util.cursor_notification(player, { message }, "utility/cannot_build")
   else
-    util.cursor_notification(player, { "message.bpt-unable-to-add-filter" }, "utility/cannot_build")
+    player.play_sound{path = "utility/smart_pipette"}
   end
 end)
 
 ---@param cursor LuaItemStack
 ---@param prototype LuaEntityPrototype
----@return boolean?
+---@return LocalisedString?
 local function remove_filter(cursor, prototype)
   if cursor.is_deconstruction_item then
     local filters = cursor.entity_filters
     for i = 1, cursor.entity_filter_count do
       if filters[i] == prototype.name then
         cursor.set_entity_filter(i, nil)
-        return true
+        return
       end
     end
 
@@ -132,10 +143,12 @@ local function remove_filter(cursor, prototype)
       if mapper.type == "entity" and mapper.name == prototype.name then
         cursor.set_mapper(i, "from", nil)
         cursor.set_mapper(i, "to", nil)
-        return true
+        return
       end
     end
   end
+
+  return "message.bpt-filter-not-present"
 end
 
 script.on_event("bpt-pipette-remove", function(event)
@@ -145,10 +158,11 @@ script.on_event("bpt-pipette-remove", function(event)
   if not prototype then return end
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
-  if remove_filter(cursor, prototype) then
-    player.play_sound{path = "utility/clear_cursor"}
+  local message = remove_filter(cursor, prototype)
+  if message then
+    util.cursor_notification(player, { message }, "utility/cannot_build")
   else
-    util.cursor_notification(player, { "message.bpt-unable-to-remove-filter" }, "utility/cannot_build")
+    player.play_sound{path = "utility/clear_cursor"}
   end
 end)
 
@@ -165,17 +179,21 @@ script.on_event("bpt-pipette-downgrade", function(event)
   local to = downgrade or (next_upgrade and next_upgrade.name)
 
   local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
-  if add_upgrade_filter(cursor, prototype.name, to) then
-    player.play_sound{path = "utility/smart_pipette"}
+  local message = add_upgrade_filter(cursor, prototype.name, to)
+  if message then
+    if message == "message.bpt-entity-cannot-upgrade" then
+      message = "message.bpt-entity-cannot-downgrade"
+    end
+    util.cursor_notification(player, { message }, "utility/cannot_build")
   else
-    util.cursor_notification(player, { "message.bpt-unable-to-add-filter" }, "utility/cannot_build")
+    player.play_sound{path = "utility/smart_pipette"}
   end
 end)
 
 local lib = {}
 
 function lib.cache_downgrades()
-    ---@type table<string, string>
+  ---@type table<string, string>
   local downgrades = {}
   global.downgrades = downgrades
 
