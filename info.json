@@ -9,6 +9,7 @@
   "factorio_version": "1.1",
   "dependencies": ["base >= 1.1.100", "flib >= 0.13.0"],
   "package": {
+    "git_publish_branch": "master",
     "ignore": ["imgui.ini"],
     "scripts": {
       "prepublish": "factorio-crowdin-sync"
