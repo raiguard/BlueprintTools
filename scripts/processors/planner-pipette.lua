@@ -68,7 +68,7 @@ local function add_upgrade_filter(cursor, from, to)
   end
 
   local first_index
-  for i = 1, cursor.prototype.mapper_count do
+  for i = 1, cursor.mapper_count do
     local mapper = cursor.get_mapper(i, "from")
     local name = mapper.name
     if name then
@@ -85,7 +85,7 @@ local function add_upgrade_filter(cursor, from, to)
   end
 
   if not first_index then
-    return "message.bpt-filters-full"
+    first_index = cursor.mapper_count + 1
   end
   cursor.set_mapper(first_index, "from", { type = "entity", name = from })
   cursor.set_mapper(first_index, "to", { type = "entity", name = to })
@@ -101,11 +101,11 @@ local function add_filter(cursor, prototype)
       return "message.bpt-filters-full"
     end
     for _, filter in pairs(filters) do
-      if filter == prototype.name then
+      if filter.name == prototype.name then
         return "message.bpt-filter-already-present"
       end
     end
-    if not cursor.set_entity_filter(#cursor.entity_filters + 1, prototype) then
+    if not cursor.set_entity_filter(#cursor.entity_filters + 1, { name = prototype }) then
       return "message.bpt-unable-to-add-filter"
     end
   elseif cursor.is_upgrade_item then
@@ -141,13 +141,13 @@ local function remove_filter(cursor, prototype)
   if cursor.is_deconstruction_item then
     local filters = cursor.entity_filters
     for i = 1, cursor.entity_filter_count do
-      if filters[i] == prototype.name then
+      if filters[i] and filters[i].name == prototype.name then
         cursor.set_entity_filter(i, nil)
         return
       end
     end
   elseif cursor.is_upgrade_item then
-    for i = 1, cursor.prototype.mapper_count do
+    for i = 1, cursor.mapper_count do
       local mapper = cursor.get_mapper(i, "from")
       if mapper.type == "entity" and mapper.name == prototype.name then
         cursor.set_mapper(i, "from", nil)
