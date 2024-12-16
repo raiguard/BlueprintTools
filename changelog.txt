@@ -2,6 +2,8 @@
 Version: 1.5.0
 Date: ????
   Changes:
+    - Updated to Factorio 2.0.
+    - Removed blueprint nudging, which is now built into vanilla Factorio.
 ---------------------------------------------------------------------------------------------------
 Version: 1.4.0
 Date: 2024-08-26
