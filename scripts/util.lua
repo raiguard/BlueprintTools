@@ -4,7 +4,7 @@ local util = {}
 
 --- Get the current blueprint from the item stack, if it exists and is set up.
 --- @param item_stack LuaItemStack
---- @return LuaItemStack|nil
+--- @return LuaItemStack?
 function util.get_blueprint(item_stack)
   if not item_stack or not item_stack.valid_for_read then
     return

@@ -8,9 +8,6 @@ local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local util = require("scripts.util")
 
-local nudge_grid = require("scripts.processors.nudge-grid")
-local nudge_absolute_grid = require("scripts.processors.nudge-absolute-grid")
-local nudge_absolute_grid_book = require("scripts.processors.nudge-absolute-grid-book")
 local planner_pipette = require("scripts.processors.planner-pipette")
 local quick_grid = require("scripts.processors.quick-grid")
 local set_tiles_gui = require("scripts.gui.set-tiles")
@@ -84,58 +81,6 @@ script.on_event("bpt-configure", function(e)
       player.opened = cursor_stack
     end
   end
-end)
-
-script.on_event("bpt-nudge-grid-up", function(e)
-  nudge_grid(game.get_player(e.player_index), { x = 0, y = 1 })
-end)
-
-script.on_event("bpt-nudge-grid-down", function(e)
-  nudge_grid(game.get_player(e.player_index), { x = 0, y = -1 })
-end)
-
-script.on_event("bpt-nudge-grid-left", function(e)
-  nudge_grid(game.get_player(e.player_index), { x = 1, y = 0 })
-end)
-
-script.on_event("bpt-nudge-grid-right", function(e)
-  nudge_grid(game.get_player(e.player_index), { x = -1, y = 0 })
-end)
-
--- Absolute grid nudging "reverses" directions compared to regular
--- grid nudging so it would make more sense for the player (otherwise
--- blueprint moves opposited direction to what the player presses).
-script.on_event("bpt-nudge-absolute-grid-up", function(e)
-  nudge_absolute_grid(game.get_player(e.player_index), { x = 0, y = -1 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-down", function(e)
-  nudge_absolute_grid(game.get_player(e.player_index), { x = 0, y = 1 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-left", function(e)
-  nudge_absolute_grid(game.get_player(e.player_index), { x = -1, y = 0 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-right", function(e)
-  nudge_absolute_grid(game.get_player(e.player_index), { x = 1, y = 0 })
-end)
-
--- Absolute grid nudging for all blueprints in a book.
-script.on_event("bpt-nudge-absolute-grid-book-up", function(e)
-  nudge_absolute_grid_book(game.get_player(e.player_index), { x = 0, y = -1 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-book-down", function(e)
-  nudge_absolute_grid_book(game.get_player(e.player_index), { x = 0, y = 1 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-book-left", function(e)
-  nudge_absolute_grid_book(game.get_player(e.player_index), { x = -1, y = 0 })
-end)
-
-script.on_event("bpt-nudge-absolute-grid-book-right", function(e)
-  nudge_absolute_grid_book(game.get_player(e.player_index), { x = 1, y = 0 })
 end)
 
 script.on_event("bpt-linked-confirm-gui", function(e)
