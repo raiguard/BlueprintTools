@@ -61,11 +61,14 @@ data:extend({
 
 -- Generate sprites for library shortcuts
 for _, prototype_name in pairs(constants.library_shortcut_prototypes) do
-  local prototype = data.raw["shortcut"][prototype_name]
-  if prototype then
-    local sprite = table.deepcopy(prototype.icon)
-    sprite.type = "sprite"
-    sprite.name = "bpt_shortcut_sprite_" .. prototype_name
-    data:extend({ sprite })
-  end
+  local prototype = data.raw.shortcut[prototype_name]
+  data:extend({
+    {
+      type = "sprite",
+      name = "bpt_shortcut_sprite_" .. prototype_name,
+      filename = prototype.icon,
+      size = prototype.icon_size,
+      flags = { "gui-icon" },
+    },
+  })
 end
