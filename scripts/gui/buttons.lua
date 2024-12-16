@@ -1,4 +1,4 @@
-local gui = require("__flib__.gui-beta")
+local gui = require("gui")
 local mod_gui = require("__core__.lualib.mod-gui")
 
 local buttons_gui = {}

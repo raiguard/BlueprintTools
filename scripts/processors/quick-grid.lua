@@ -5,7 +5,7 @@ local constants = require("constants")
 local util = require("scripts.util")
 
 local function quick_grid(player)
-  local player_table = global.players[player.index]
+  local player_table = storage.players[player.index]
 
   local blueprint = util.get_blueprint(player.cursor_stack)
   if not blueprint then
@@ -18,7 +18,7 @@ local function quick_grid(player)
   local first_obj = entities[1] or tiles[1]
 
   local box = flib_bounding_box.from_position(first_obj.position)
-  local entity_prototypes = game.entity_prototypes
+  local entity_prototypes = prototypes.entity
 
   -- iterate entities and tiles to calculate needed grid size
   for _, entity in pairs(entities) do

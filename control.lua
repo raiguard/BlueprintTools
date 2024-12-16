@@ -1,4 +1,4 @@
-local gui = require("__flib__.gui")
+local gui = require("gui")
 local migration = require("__flib__.migration")
 
 local buttons_gui = require("scripts.gui.buttons")
@@ -22,12 +22,12 @@ local swap_wire_colors = require("scripts.processors.swap-wire-colors")
 -- BOOTSTRAP
 
 script.on_init(function()
-  global.players = {}
+  storage.players = {}
   planner_pipette.cache_downgrades()
 
   for i, player in pairs(game.players) do
     player_data.init(i)
-    player_data.refresh(player, global.players[i])
+    player_data.refresh(player, storage.players[i])
   end
 end)
 
@@ -36,7 +36,7 @@ script.on_configuration_changed(function(e)
 
   if migration.on_config_changed(e, migrations) then
     for i, player in pairs(game.players) do
-      local player_table = global.players[i]
+      local player_table = storage.players[i]
       player_data.refresh(player, player_table)
     end
   end
@@ -58,7 +58,7 @@ script.on_event("bpt-set-tiles", function(e)
   if not player then
     return
   end
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local cursor_stack = player.cursor_stack
   if cursor_stack and cursor_stack.valid_for_read then
     local blueprint = util.get_blueprint(cursor_stack)
@@ -143,7 +143,7 @@ script.on_event("bpt-linked-confirm-gui", function(e)
   if not player then
     return
   end
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
   if gui_data and gui_data.refs.confirm_button.enabled then
     set_tiles_gui.handle_action(e, { action = "confirm" })
@@ -156,7 +156,7 @@ script.on_event("bpt-linked-clear-cursor", function(e)
   if not player then
     return
   end
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local cursor_stack = player.cursor_stack
   if player_table.flags.holding_temporary_item and cursor_stack.valid_for_read then
     local item_type = cursor_stack.type
@@ -175,7 +175,7 @@ gui.hook_events(function(e)
   if not player then
     return
   end
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local action = gui.read_action(e)
 
   if action then
@@ -203,11 +203,11 @@ end)
 
 script.on_event(defines.events.on_player_created, function(e)
   player_data.init(e.player_index)
-  player_data.refresh(game.get_player(e.player_index), global.players[e.player_index])
+  player_data.refresh(game.get_player(e.player_index), storage.players[e.player_index])
 end)
 
 script.on_event(defines.events.on_player_removed, function(e)
-  global.players[e.player_index] = nil
+  storage.players[e.player_index] = nil
 end)
 
 script.on_event(defines.events.on_player_cursor_stack_changed, function(e)
@@ -215,7 +215,7 @@ script.on_event(defines.events.on_player_cursor_stack_changed, function(e)
   if not player then
     return
   end
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local cursor_stack = player.cursor_stack
 
   if player_table.flags.setting_temporary_item then
@@ -259,7 +259,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
     if not player then
       return
     end
-    local player_table = global.players[e.player_index]
+    local player_table = storage.players[e.player_index]
     player_data.update_settings(player, player_table)
     if e.setting == "bpt-show-library-shortcuts" then
       library_shortcuts_gui.refresh(player, player_table)

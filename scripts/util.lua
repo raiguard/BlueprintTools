@@ -27,7 +27,7 @@ end
 
 --- @param entity BlueprintEntity
 function util.get_rail_tiles(entity)
-  local category = constants.rail_tiles[game.entity_prototypes[entity.name].type]
+  local category = constants.rail_tiles[prototypes.entity[entity.name].type]
   if not category then
     return
   end
@@ -58,8 +58,8 @@ function util.get_blueprint_largest_build_grid_size(blueprints)
 
   for _, blueprint in pairs(blueprints) do
     for _, entity in pairs(blueprint.get_blueprint_entities() or {}) do
-      if game.entity_prototypes[entity.name].building_grid_bit_shift > build_grid_size then
-        build_grid_size = game.entity_prototypes[entity.name].building_grid_bit_shift
+      if prototypes.entity[entity.name].building_grid_bit_shift > build_grid_size then
+        build_grid_size = prototypes.entity[entity.name].building_grid_bit_shift
       end
     end
   end

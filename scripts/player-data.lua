@@ -8,7 +8,7 @@ local player_data = {}
 
 function player_data.init(player_index)
   --- @class PlayerTable
-  global.players[player_index] = {
+  storage.players[player_index] = {
     flags = {
       blueprint_buttons_shown = false,
       deconstruction_planner_buttons_shown = false,
@@ -45,7 +45,7 @@ function player_data.refresh(player, player_table)
   library_shortcuts_gui.refresh(player, player_table)
 
   -- If the tile does not exist
-  if not game.tile_prototypes[player_table.set_tiles_settings.tile] then
+  if not prototypes.tile[player_table.set_tiles_settings.tile] then
     -- Set it to `nil`
     player_table.set_tiles_settings.tile = nil
   end

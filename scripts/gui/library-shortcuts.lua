@@ -1,4 +1,4 @@
-local gui = require("__flib__.gui")
+local gui = require("gui")
 
 local constants = require("constants")
 local import_string_gui = require("scripts.gui.import-string")
@@ -20,7 +20,7 @@ function library_shortcuts_gui.refresh(player, player_table)
 
   local buttons = {}
   for _, prototype_name in pairs(constants.library_shortcut_prototypes) do
-    local prototype = game.shortcut_prototypes[prototype_name]
+    local prototype = prototypes.shortcut[prototype_name]
     if prototype then
       local tooltip = prototype.localised_name
       if prototype.associated_control_input then
@@ -45,7 +45,7 @@ function library_shortcuts_gui.refresh(player, player_table)
   gui.add(player.gui.relative, {
     type = "frame",
     name = "bpt_library_shortcuts_frame",
-    style = "quick_bar_window_frame",
+    style = "slot_window_frame",
     {
       type = "frame",
       style = "inside_deep_frame",

@@ -1,4 +1,4 @@
-local gui = require("__flib__.gui-beta")
+local gui = require("gui")
 
 local set_tiles = require("scripts.processors.set-tiles")
 
@@ -123,7 +123,7 @@ end
 
 function set_tiles_gui.handle_action(e, msg)
   local player = game.get_player(e.player_index)
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   local gui_data = player_table.guis.set_tiles
   local refs = gui_data.refs
 

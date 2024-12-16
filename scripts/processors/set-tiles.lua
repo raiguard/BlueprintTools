@@ -12,7 +12,7 @@ return function(player, tile_name, fill_gaps, margin)
 
   local entities = blueprint.get_blueprint_entities() or {}
   local tiles = blueprint.get_blueprint_tiles() or {}
-  local entity_prototypes = game.entity_prototypes
+  local entity_prototypes = prototypes.entity
 
   local output_tiles = {}
   local tile_index = 0

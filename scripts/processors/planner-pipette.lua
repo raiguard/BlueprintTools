@@ -23,7 +23,7 @@ local function get_selected_prototype(event)
     local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
     local selected_entity = player.selected
     if not selected_entity then
-      return game.entity_prototypes[selected.name]
+      return prototypes.entity[selected.name]
     end
     if selected_entity.type == "entity-ghost" and selected_entity.ghost_prototype.type ~= "tile" then
       return selected_entity.ghost_prototype --[[@as LuaEntityPrototype]]
@@ -33,17 +33,17 @@ local function get_selected_prototype(event)
     -- _CodeGreen: I couldn't find anything in game where I could click on an item or recipe that actually had a CustomInputEvent fire
     -- But the code to handle them is here, I guess
   elseif selected.base_type == "item" then
-    local item = game.item_prototypes[selected.name]
+    local item = prototypes.item[selected.name]
     local place_result = item.place_result
     if not place_result then
       return
     end
     return place_result
   elseif selected.base_type == "recipe" then
-    local recipe = game.recipe_prototypes[selected.name]
+    local recipe = prototypes.recipe[selected.name]
     local main_product = recipe.main_product
     local products = main_product and { main_product } or recipe.products
-    local item_prototypes = game.item_prototypes
+    local item_prototypes = prototypes.item
     for _, product in pairs(products) do
       if product.type ~= "item" then
         goto continue
@@ -110,7 +110,7 @@ local function add_filter(cursor, prototype)
     end
   elseif cursor.is_upgrade_item then
     local next_upgrade = prototype.next_upgrade
-    local to = next_upgrade and next_upgrade.name or global.downgrades[prototype.name]
+    local to = next_upgrade and next_upgrade.name or storage.downgrades[prototype.name]
     return add_upgrade_filter(cursor, prototype.name, to)
   end
 end
@@ -193,7 +193,7 @@ script.on_event("bpt-pipette-downgrade", function(event)
     return
   end
 
-  local downgrade = global.downgrades[prototype.name]
+  local downgrade = storage.downgrades[prototype.name]
   local next_upgrade = prototype.next_upgrade
   local to = downgrade or (next_upgrade and next_upgrade.name)
 
@@ -214,9 +214,9 @@ local lib = {}
 function lib.cache_downgrades()
   ---@type table<string, string>
   local downgrades = {}
-  global.downgrades = downgrades
+  storage.downgrades = downgrades
 
-  for name, entity in pairs(game.entity_prototypes) do
+  for name, entity in pairs(prototypes.entity) do
     local next_upgrade = entity.next_upgrade
     if next_upgrade then
       downgrades[next_upgrade.name] = name
