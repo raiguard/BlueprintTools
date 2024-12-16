@@ -1,13 +1,13 @@
 {
   "name": "BlueprintTools",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "title": "Blueprint Tools",
   "description": "Tools for manipulating blueprints - swap wire colors, set tiles, quick-grid, configuration hotkey. Spiritual successor to Blueprint Extensions.",
   "author": "raiguard",
   "contact": "https://github.com/raiguard/BlueprintTools/issues",
   "homepage": "https://github.com/raiguard/BlueprintTools",
-  "factorio_version": "1.1",
-  "dependencies": ["base >= 1.1.100", "flib >= 0.13.0"],
+  "factorio_version": "2.0",
+  "dependencies": ["base >= 2.0.23", "flib >= 0.16.0"],
   "package": {
     "git_publish_branch": "master",
     "ignore": ["imgui.ini"],
