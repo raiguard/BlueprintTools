@@ -1,3 +1,5 @@
+# ⚠️ This project has migrated to [Codeberg](https://codeberg.org/raiguard/BlueprintTools).
+
 # Blueprint Tools
 
 Blueprint Tools is a Factorio mod adding various blueprint manipulation tools to the game.
